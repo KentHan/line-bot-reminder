@@ -92,7 +92,8 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    print("user_id: %s" % event.source.user_id)
+    if hasattr(event.source, "user_id"):
+        print("user_id: %s" % event.source.user_id)
     line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text="I love you Lana~")
