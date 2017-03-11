@@ -13,10 +13,11 @@ from linebot.models import TextMessage
 channel_access_token = os.getenv('LINE_CHANNEL_ACCESS_TOKEN')
 line_bot_api = LineBotApi(channel_access_token)
 
-mongodb_id = os.getenv('MONGODB_ID')
-mongodb_pw = os.getenv('MONGODB_PW')
+mongodb_id = os.getenv("MONGODB_ID")
+mongodb_pw = os.getenv("MONGODB_PW")
+mongodb_uri = os.getenv("MONGODB_URI")
 
-client = MongoClient("mongodb://cluster1-shard-00-00-imdfs.mongodb.net:27017,cluster1-shard-00-01-imdfs.mongodb.net:27017,cluster1-shard-00-02-imdfs.mongodb.net:27017/admin?ssl=true&replicaSet=Cluster1-shard-0&authSource=admin")
+client = MongoClient(mongodb_uri)
 client.admin.authenticate(mongodb_id, mongodb_pw, mechanism='SCRAM-SHA-1')
 db = client.user_data
 
