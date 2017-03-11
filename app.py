@@ -1,14 +1,7 @@
 # -*- coding: utf-8 -*-
 
-"""
-Flask Documentation:     http://flask.pocoo.org/docs/
-Jinja2 Documentation:    http://jinja.pocoo.org/2/documentation/
-Werkzeug Documentation:  http://werkzeug.pocoo.org/documentation/
-
-This file creates your application.
-"""
-
 import os
+
 from flask import Flask, render_template, request, redirect, url_for
 
 from linebot import (
@@ -22,8 +15,6 @@ from linebot.models import (
 )
 
 app = Flask(__name__)
-
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'this_should_be_configured')
 
 channel_secret = os.getenv('LINE_CHANNEL_SECRET', None)
 channel_access_token = os.getenv('LINE_CHANNEL_ACCESS_TOKEN', None)
@@ -109,4 +100,4 @@ def handle_message(event):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True)  # reloader caused scheduler to run twice
