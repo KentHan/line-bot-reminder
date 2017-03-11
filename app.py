@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 """
 Flask Documentation:     http://flask.pocoo.org/docs/
 Jinja2 Documentation:    http://jinja.pocoo.org/2/documentation/
@@ -85,7 +87,8 @@ def callback():
 
     # get request body as text
     body = request.get_data(as_text=True)
-    app.logger.info("Request body: " + body)
+    # app.logger.info("Request body: " + body)
+    print("Request body: %s" % body)
 
     # parse webhook body
     try:
@@ -98,6 +101,7 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
+    print("user_id: %s" % event.source.user_id)
     line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text="I love you Lana~")
