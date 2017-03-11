@@ -10,7 +10,7 @@ import os
 from flask import Flask, render_template, request, redirect, url_for
 
 from linebot import (
-    LineBotApi, WebhookParser
+    LineBotApi, WebhookHandler
 )
 from linebot.exceptions import (
     InvalidSignatureError
@@ -33,7 +33,7 @@ if channel_access_token is None:
     sys.exit(1)
 
 line_bot_api = LineBotApi(channel_access_token)
-parser = WebhookParser(channel_secret)
+handler = WebhookHandler(channel_secret)
 
 ###
 # Routing for your application.
@@ -89,23 +89,19 @@ def callback():
 
     # parse webhook body
     try:
-        events = parser.parse(body, signature)
+        events = handler.handle(body, signature)
     except InvalidSignatureError:
         abort(400)
 
-    # if event is MessageEvent and message is TextMessage, then echo text
-    for event in events:
-        if not isinstance(event, MessageEvent):
-            continue
-        if not isinstance(event.message, TextMessage):
-            continue
+    return 'OK'
 
-        line_bot_api.reply_message(
+
+@handler.add(MessageEvent, message=TextMessage)
+def handle_message(event):
+    line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text="I love you Lana~")
-        )
-
-    return 'OK'
+    )
 
 
 if __name__ == '__main__':
