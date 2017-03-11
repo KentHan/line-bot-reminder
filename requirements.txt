@@ -14,3 +14,9 @@ mock
 # Production Server
 # ----------------------
 gunicorn
+
+
+# ----------------------
+# LINE Bot
+# ----------------------
+line-bot-sdk
