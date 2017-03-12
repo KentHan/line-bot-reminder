@@ -16,7 +16,7 @@ class EventDAO:
 	client.admin.authenticate(mongodb_id, mongodb_pw, mechanism='SCRAM-SHA-1')
 	db = client.user_data
 
-	def add_event(self, user, event):
+	def add_user_and_event(self, user, event):
 		result = self.db.users.insert_one(
     		{
         		"_id": user,
@@ -48,6 +48,32 @@ class EventDAO:
 				}
 			}
 		)
+		return result.acknowledged
+
+	def has_user(self, user):
+		result = self.db.users.find(
+			{
+				"_id": user
+			}
+		)
+		return result.count() is 1
+
+	def append_event(self, user, event):
+		result = self.db.users.update_one(
+			{
+				"_id": user,
+			},
+			{
+				"$addToSet": {
+					"events": {
+						"name": event.name,
+        				"created_time": event.created_time,
+        				"interval": event.interval
+					}
+				}
+			}
+		)
+		return result.acknowledged
 
 	def query_event_from_user(self, user):
 		pass

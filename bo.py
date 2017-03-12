@@ -17,7 +17,10 @@ class EventBO:
 		print(options)
 		kv = dict(options)
 		event = Event(kv["-n"], int(time()), int(kv["-t"]))
-		return self.dao.add_event(user, event)
+		if self.dao.has_user(user):
+			return self.dao.append_event(user, event)
+		else:
+			return self.dao.add_user_and_event(user, event)
 
 	def send_notification(self):
 		users = self.dao.query_all_user_events()
