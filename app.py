@@ -96,11 +96,25 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     if hasattr(event.source, "user_id"):
-        print("user_id: %s" % event.source.user_id)
-    line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text="I love you Lana~")
-    )
+        user_id = event.source.user_id
+        # print("user_id: %s" % event.source.user_id)
+    
+    text = event.message.text
+
+    if text.startswith("/add"):
+        handle_add_command(user_id, command_parser(text[4:]))
+    elif text.startswith("/remove"):
+        pass
+    elif text.startswith("/reset"):
+        pass
+
+    # line_bot_api.reply_message(
+    #         event.reply_token,
+    #         TextSendMessage(text="I love you Lana~")
+    # )
+
+def handle_add_command(target_id, args):
+    print("hello~")
 
 def command_parser(input):
     import getopt
@@ -108,4 +122,4 @@ def command_parser(input):
     return args
 
 if __name__ == '__main__':
-    app.run(debug=True)  # reloader caused scheduler to run twice
+    app.run(debug=True)
