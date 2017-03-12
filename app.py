@@ -108,7 +108,7 @@ def handle_message(event):
     if text.startswith("/add"):
         result = bo.handle_add_command(user_id, command_parser(text[4:]))
     elif text.startswith("/remove"):
-        pass
+        result = bo.handle_remove_command(user_id, command_parser(text[7:]))
     elif text.startswith("/reset"):
         pass
 

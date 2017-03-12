@@ -75,8 +75,22 @@ class EventDAO:
 		)
 		return result.acknowledged
 
+	def remove_event(self, user, event):
+		result = self.db.users.update_one(
+			{
+				"_id": user
+			},
+			{
+				"$pull": {
+					"events": {
+						"name": event.name
+					}
+				}
+			}
+		)
+		return result.acknowledged
+
 	def query_event_from_user(self, user):
 		pass
 
-	def remove_event(self):
-		pass
+		
