@@ -11,4 +11,4 @@ class EventBO:
 		print(options)
 
 		event = Event("name1", 1489303274, 60)
-		self.dao.add_event(user, event)
+		return self.dao.add_event(user, event)

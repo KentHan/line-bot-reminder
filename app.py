@@ -18,6 +18,7 @@ from linebot.models import (
 )
 
 from bo import EventBO
+from message import send_text_message
 
 app = Flask(__name__)
 
@@ -105,16 +106,14 @@ def handle_message(event):
     bo = EventBO()
 
     if text.startswith("/add"):
-        bo.handle_add_command(user_id, command_parser(text[4:]))
+        result = bo.handle_add_command(user_id, command_parser(text[4:]))
     elif text.startswith("/remove"):
         pass
     elif text.startswith("/reset"):
         pass
 
-    # line_bot_api.reply_message(
-    #         event.reply_token,
-    #         TextSendMessage(text="I love you Lana~")
-    # )    
+    if result:
+        send_text_message(user_id, "OK!")
 
 def command_parser(input):
     import getopt

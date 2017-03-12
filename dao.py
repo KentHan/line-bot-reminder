@@ -29,6 +29,7 @@ class EventDAO:
         		]
     		}
 		)
+		return result.acknowledged
 
 	def query_event_from_user(self, user):
 		pass
