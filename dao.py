@@ -31,6 +31,24 @@ class EventDAO:
 		)
 		return result.acknowledged
 
+	def query_all_user_events(self):
+		cursor = self.db.users.find()
+		results = cursor[:]
+		return results
+
+	def update_last_notified_time(self, user, name, last_notified_time):
+		result = self.db.users.update(
+			{
+				"_id": user,
+				"events.name": name
+			},
+			{
+				"$set": {
+					'events.$.last_notified_time': last_notified_time
+				}
+			}
+		)
+
 	def query_event_from_user(self, user):
 		pass
 
