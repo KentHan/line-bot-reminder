@@ -98,9 +98,7 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    if hasattr(event.source, "user_id"):
-        user_id = event.source.user_id
-        # print("user_id: %s" % event.source.user_id)
+    user_id = event.source.sender_id
     
     text = event.message.text
     bo = EventBO()
