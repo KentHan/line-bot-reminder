@@ -17,6 +17,8 @@ from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
 )
 
+from bo import EventBO
+
 app = Flask(__name__)
 
 channel_secret = os.getenv('LINE_CHANNEL_SECRET')
@@ -100,9 +102,10 @@ def handle_message(event):
         # print("user_id: %s" % event.source.user_id)
     
     text = event.message.text
+    bo = EventBO()
 
     if text.startswith("/add"):
-        handle_add_command(user_id, command_parser(text[4:]))
+        bo.handle_add_command(user_id, command_parser(text[4:]))
     elif text.startswith("/remove"):
         pass
     elif text.startswith("/reset"):
@@ -111,10 +114,7 @@ def handle_message(event):
     # line_bot_api.reply_message(
     #         event.reply_token,
     #         TextSendMessage(text="I love you Lana~")
-    # )
-
-def handle_add_command(target_id, args):
-    print("hello~")
+    # )    
 
 def command_parser(input):
     import getopt
