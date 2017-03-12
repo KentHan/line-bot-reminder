@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from time import time
 
 from dao import EventDAO
 from event import Event
@@ -9,6 +10,6 @@ class EventBO:
 
 	def handle_add_command(self, user, options):
 		print(options)
-
-		event = Event("name1", 1489303274, 60)
+		kv = dict(options)
+		event = Event(kv["-n"], int(time()), kv["-t"])
 		return self.dao.add_event(user, event)
