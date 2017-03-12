@@ -54,5 +54,5 @@ class EventBO:
 
 	def compose_alert_message(self, name, times, interval):
 		times_string = "%d%s" % (times, "天" if interval==86400 else "次")
-		output = "離上一次%s已經%s了！" % (name, times_string)
+		output = "離上一次\"%s\"已經%s了！" % (name, times_string)
 		return output
