@@ -102,6 +102,10 @@ def handle_message(event):
             TextSendMessage(text="I love you Lana~")
     )
 
+def command_parser(input):
+    import getopt
+    args, long_options = getopt.getopt(input.split(), "n:t:")
+    return args
 
 if __name__ == '__main__':
     app.run(debug=True)  # reloader caused scheduler to run twice

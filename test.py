@@ -4,7 +4,7 @@
 
 import unittest
 from app import app
-
+from app import command_parser
 
 class TestApp(unittest.TestCase):
 
@@ -34,6 +34,21 @@ class TestApp(unittest.TestCase):
         self.assertTrue(rv.data)
         self.assertEqual(rv.status_code, 200)
         rv.close()
+
+    def test_input_add_parameters(self):
+        input = "-n clean -t 86400"
+        output_options = command_parser(input)
+        self.assertEqual(output_options, [("-n", "clean"), ("-t", "86400")])
+
+    def test_input_remove_parameters(self):
+        input = "-n clean"
+        output_options = command_parser(input)
+        self.assertEqual(output_options, [("-n", "clean")])
+
+    def test_input_reset_parameters(self):
+        input = "-n clean"
+        output_options = command_parser(input)
+        self.assertEqual(output_options, [("-n", "clean")])
 
 
 if __name__ == '__main__':
