@@ -29,12 +29,12 @@ def sendTextMessage(user_id, text):
 
 sched = BlockingScheduler()
 
-@sched.scheduled_job('interval', seconds=5)
+@sched.scheduled_job('cron', hour="8-24",minute="0")
 def scheduled_job():
     print('This job is run every five seconds.')
     query = db["users"].find()
     print("DB count: %d" % query.count())
-    # sendTextMessage("U171903a51154a9693c8c49fbce6af0d1", "time is up!")
+    sendTextMessage("U171903a51154a9693c8c49fbce6af0d1", "我想吃藥了！")
     print('This job is finished.')
 
 sched.start()
