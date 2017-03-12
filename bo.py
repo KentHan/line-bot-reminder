@@ -44,6 +44,11 @@ class EventBO:
 				name = event['name']
 				current_time = int(time())
 				last_notified_time = event['last_notified_time'] if 'last_notified_time' in event else 0
+				print("name: ", name, ", created_time: ", created_time, 
+					", interval: ", interval,
+					", last_notified_time: ", last_notified_time,
+					", current_time: ", current_time)
+
 				print("last_notified_time: ", last_notified_time)
 				print("current_time:       ", current_time)
 				if current_time - last_notified_time >= interval:
