@@ -11,5 +11,5 @@ class EventBO:
 	def handle_add_command(self, user, options):
 		print(options)
 		kv = dict(options)
-		event = Event(kv["-n"], int(time()), kv["-t"])
+		event = Event(kv["-n"], int(time()), int(kv["-t"]))
 		return self.dao.add_event(user, event)
