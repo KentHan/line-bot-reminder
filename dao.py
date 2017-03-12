@@ -2,6 +2,7 @@
 
 
 import os
+from time import time
 
 from pymongo import MongoClient
 
@@ -37,7 +38,7 @@ class EventDAO:
 		return results
 
 	def update_last_notified_time(self, user, name, last_notified_time):
-		result = self.db.users.update(
+		result = self.db.users.update_one(
 			{
 				"_id": user,
 				"events.name": name
@@ -85,6 +86,22 @@ class EventDAO:
 					"events": {
 						"name": event.name
 					}
+				}
+			}
+		)
+		return result.acknowledged
+
+	def reset_event(self, user, event):
+		result = self.db.users.update_one(
+			{
+				"_id": user,
+				"events.name": event.name
+			},
+			{
+				"$set": {
+					'events.$.last_notified_time': 0,
+					'events.$.created_time': int(time()),
+
 				}
 			}
 		)

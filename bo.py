@@ -28,6 +28,12 @@ class EventBO:
 		event = Event(kv["-n"])
 		return self.dao.remove_event(user, event)
 
+	def handle_reset_command(self, user, options):
+		print("options: ", options)
+		kv = dict(options)
+		event = Event(kv["-n"])
+		return self.dao.reset_event(user, event)
+
 	def send_notification(self):
 		users = self.dao.query_all_user_events()
 		for user in users:

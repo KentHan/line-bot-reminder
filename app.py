@@ -110,7 +110,7 @@ def handle_message(event):
     elif text.startswith("/remove"):
         result = bo.handle_remove_command(user_id, command_parser(text[7:]))
     elif text.startswith("/reset"):
-        pass
+        result = bo.handle_reset_command(user_id, command_parser(text[6:]))
 
     if result:
         send_text_message(user_id, "OK!")
