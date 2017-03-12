@@ -49,9 +49,7 @@ class EventBO:
 					", last_notified_time: ", last_notified_time,
 					", current_time: ", current_time)
 
-				print("last_notified_time: ", last_notified_time)
-				print("current_time:       ", current_time)
-				if current_time - last_notified_time >= interval:
+				if (last_notified_time is not 0) and (current_time - last_notified_time >= interval):
 					time_diff = current_time - created_time
 					message = self.compose_alert_message(name, time_diff, interval)
 					send_text_message(user_id, message)
