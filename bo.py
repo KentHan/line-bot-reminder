@@ -2,10 +2,13 @@
 
 
 from dao import EventDAO
-
+from event import Event
 
 class EventBO:
 	dao = EventDAO()
 
 	def handle_add_command(self, user, options):
-		print("hello~")
+		print(options)
+
+		event = Event("name1", 1489303274, 60)
+		self.dao.add_event(user, event)
