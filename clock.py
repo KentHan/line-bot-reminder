@@ -19,14 +19,14 @@ db = client.user_data
 
 logging.basicConfig()
 
-sched = BlockingScheduler()
+# sched = BlockingScheduler()
 
-@sched.scheduled_job('cron', minute="*")
-def scheduled_job():
-    print('This job is run every five seconds.')
-    query = db["users"].find()
-    print("DB count: %d" % query.count())
-    send_text_message("U171903a51154a9693c8c49fbce6af0d1", "我想吃藥了！")
-    print('This job is finished.')
+# @sched.scheduled_job('cron', minute="*")
+# def scheduled_job():
+#     print('This job is run every five seconds.')
+#     query = db["users"].find()
+#     print("DB count: %d" % query.count())
+#     send_text_message("U171903a51154a9693c8c49fbce6af0d1", "我想吃藥了！")
+#     print('This job is finished.')
 
-sched.start()
+# sched.start()
