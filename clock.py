@@ -29,7 +29,7 @@ def sendTextMessage(user_id, text):
 
 sched = BlockingScheduler()
 
-@sched.scheduled_job('cron', hour="8-24",minute="0")
+@sched.scheduled_job('cron', minute="*")
 def scheduled_job():
     print('This job is run every five seconds.')
     query = db["users"].find()
