@@ -47,12 +47,23 @@ class EventBO:
 				print("last_notified_time: ", last_notified_time)
 				print("current_time:       ", current_time)
 				if current_time - last_notified_time >= interval:
-					times = (current_time - created_time) / int(interval)
-					message = self.compose_alert_message(name, times, interval)
+					time_diff = current_time - created_time
+					message = self.compose_alert_message(name, time_diff, interval)
 					send_text_message(user_id, message)
 					self.dao.update_last_notified_time(user_id, name, current_time)
 
-	def compose_alert_message(self, name, times, interval):
-		times_string = "%d%s" % (times, "天" if interval==86400 else "次")
+	def compose_alert_message(self, name, time_diff, interval):
+		if interval < 3600:
+			counter = "分鐘"
+			scale = 60
+		elif interval < 86400:
+			counter = "小時"
+			scale = 3600
+		else:
+			counter = "天"
+			scale = 86400
+
+		times = time_diff / scale
+		times_string = "%d%s" % (times, counter)
 		output = "離上一次\"%s\"已經%s了！" % (name, times_string)
 		return output
