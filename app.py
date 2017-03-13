@@ -95,10 +95,24 @@ def callback():
 
     return 'OK'
 
+MESSAGE_HELP = """
+* 加入事件
+/add -n <事件名> -t <提醒間隔(秒)>
+    
+* 重置提醒
+/reset -n <事件名>
+
+* 移除事件
+/remove -n <事件名>
+"""
+
+MESSAGE_ERROR = "我看不懂，試試看輸入 /help"
+MESSAGE_OK = "OK!"
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     user_id = event.source.sender_id
+    source_type = event.source.type
     
     text = event.message.text
     bo = EventBO()
@@ -109,9 +123,19 @@ def handle_message(event):
         result = bo.handle_remove_command(user_id, command_parser(text[7:]))
     elif text.startswith("/reset"):
         result = bo.handle_reset_command(user_id, command_parser(text[6:]))
+    elif text.startswith("/help"):
+        send_text_message(user_id, MESSAGE_HELP)
+    else:
+        if source_type == "user":
+            send_text_message(user_id, MESSAGE_ERROR)
+        else:
+            return
 
     if result:
-        send_text_message(user_id, "OK!")
+        send_text_message(user_id, MESSAGE_OK)
+    else:
+        send_text_message(user_id, MESSAGE_ERROR)
+
 
 def command_parser(input):
     import getopt
