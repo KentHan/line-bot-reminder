@@ -57,7 +57,7 @@ class EventDAO:
 				"_id": user
 			}
 		)
-		return result.count() is 1
+		return result.count() == 1
 
 	def append_event(self, user, event):
 		result = self.db.users.update_one(
