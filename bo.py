@@ -32,26 +32,25 @@ class EventBO:
 		return self.dao.reset_event(user, event)
 
 	def send_notification(self):
-		users = self.dao.query_all_user_events()
-		for user in users:
-			user_id = user['_id']
-			for event in user['events']:
-				created_time = event['created_time']
-				interval = event['interval']
-				name = event['name']
-				current_time = int(time())
-				last_notified_time = event['last_notified_time'] if 'last_notified_time' in event else created_time
-				print("name: %s" % name, 
-					"created_time: %d" % created_time, 
-					"interval: %d" % interval,
-					"last_notified_time: %d" % last_notified_time,
-					"current_time: %d" % current_time)
+		events = self.dao.query_all_events()
+		for event in events:
+			target_id = event['target']
+			created_time = event['created_time']
+			interval = event['interval']
+			name = event['name']
+			current_time = int(time())
+			last_notified_time = event['last_notified_time'] if 'last_notified_time' in event else created_time
+			print("name: %s" % name, 
+				"created_time: %d" % created_time, 
+				"interval: %d" % interval,
+				"last_notified_time: %d" % last_notified_time,
+				"current_time: %d" % current_time)
 
-				if current_time - last_notified_time >= interval:
-					time_diff = current_time - created_time
-					message = self.compose_alert_message(name, time_diff, interval)
-					send_text_message(user_id, message)
-					self.dao.update_last_notified_time(user_id, name, current_time)
+			if current_time - last_notified_time >= interval:
+				time_diff = current_time - created_time
+				message = self.compose_alert_message(name, time_diff, interval)
+				send_text_message(target_id, message)
+				self.dao.update_last_notified_time(target_id, name, current_time)
 
 	def compose_alert_message(self, name, time_diff, interval):
 		if interval < 3600:

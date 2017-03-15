@@ -28,7 +28,7 @@ class EventDAO:
 		)
 		return result.acknowledged
 
-	def query_all_user_events(self):
+	def query_all_events(self):
 		cursor = self.db.event.find()
 		results = cursor[:]
 		return results
