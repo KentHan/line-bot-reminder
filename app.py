@@ -97,13 +97,13 @@ def callback():
 
 MESSAGE_HELP = """
 * 加入事件
-/add -n <事件名> -t <提醒間隔(秒)>
+/add <事件名> <提醒間隔(秒)>
     
 * 重置提醒
-/reset -n <事件名>
+/reset <事件名>
 
 * 移除事件
-/remove -n <事件名>
+/remove <事件名>
 """
 
 MESSAGE_ERROR = "我看不懂，試試看輸入 /help"
@@ -118,11 +118,11 @@ def handle_message(event):
     bo = EventBO()
 
     if text.startswith("/add"):
-        result = bo.handle_add_command(user_id, command_parser(text[4:]))
+        result = bo.handle_add_command(user_id, command_parser(text[5:]))
     elif text.startswith("/remove"):
-        result = bo.handle_remove_command(user_id, command_parser(text[7:]))
+        result = bo.handle_remove_command(user_id, command_parser(text[8:]))
     elif text.startswith("/reset"):
-        result = bo.handle_reset_command(user_id, command_parser(text[6:]))
+        result = bo.handle_reset_command(user_id, command_parser(text[7:]))
     elif text.startswith("/help"):
         send_text_message(user_id, MESSAGE_HELP)
     else:
@@ -138,9 +138,9 @@ def handle_message(event):
 
 
 def command_parser(input):
-    import getopt
-    args, long_options = getopt.getopt(input.split(), "n:t:")
-    return args
+    keys = ["name", "interval"]
+    values = input.split(" ")
+    return dict(zip(keys, values))
 
 if __name__ == '__main__':
     app.run(debug=True)

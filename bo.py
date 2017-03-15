@@ -15,8 +15,7 @@ class EventBO:
 
 	def handle_add_command(self, user, options):
 		print(options)
-		kv = dict(options)
-		event = Event(kv["-n"], int(time()), int(kv["-t"]))
+		event = Event(options["name"], int(time()), int(options["interval"]))
 		if self.dao.has_user(user):
 			return self.dao.append_event(user, event)
 		else:
@@ -24,14 +23,12 @@ class EventBO:
 
 	def handle_remove_command(self, user, options):
 		print("options: ", options)
-		kv = dict(options)
-		event = Event(kv["-n"])
+		event = Event(options["name"])
 		return self.dao.remove_event(user, event)
 
 	def handle_reset_command(self, user, options):
 		print("options: ", options)
-		kv = dict(options)
-		event = Event(kv["-n"])
+		event = Event(options["name"])
 		return self.dao.reset_event(user, event)
 
 	def send_notification(self):
