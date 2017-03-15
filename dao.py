@@ -18,90 +18,99 @@ class EventDAO:
 	db = client.user_data
 
 	def add_user_and_event(self, user, event):
-		result = self.db.users.insert_one(
+		result = self.db.event.insert_one(
     		{
-        		"_id": user,
-        		"events": [
-        			{	
-        				"name": event.name,
-        				"created_time": event.created_time,
-        				"interval": event.interval
-        			}
-        		]
+        		"target": user,
+        		"name": event.name,
+        		"created_time": event.created_time,
+        		"interval": event.interval
     		}
 		)
 		return result.acknowledged
 
 	def query_all_user_events(self):
-		cursor = self.db.users.find()
+		cursor = self.db.event.find()
 		results = cursor[:]
 		return results
 
 	def update_last_notified_time(self, user, name, last_notified_time):
-		result = self.db.users.update_one(
+		result = self.db.event.update_one(
 			{
-				"_id": user,
-				"events.name": name
+				"target": user,
+				"name": name
 			},
 			{
 				"$set": {
-					'events.$.last_notified_time': last_notified_time
+					'last_notified_time': last_notified_time
 				}
 			}
 		)
 		return result.acknowledged
 
-	def has_user(self, user):
-		result = self.db.users.find(
+	def has_event(self, event):
+		result = self.db.event.find(
 			{
-				"_id": user
+				"target": event.target,
+				"name": event.name
 			}
 		)
 		return result.count() == 1
 
-	def append_event(self, user, event):
-		result = self.db.users.update_one(
+	# def has_user(self, user):
+	# 	result = self.db.event.find(
+	# 		{
+	# 			"user": user
+	# 		}
+	# 	)
+	# 	return result.count() == 1
+
+	def add_event(self, event):
+		result = self.db.event.insert_one(
 			{
-				"_id": user,
-			},
-			{
-				"$addToSet": {
-					"events": {
-						"name": event.name,
-        				"created_time": event.created_time,
-        				"interval": event.interval
-					}
-				}
+				"target": event.target,
+				"name": event.name,
+				"created_time": event.created_time,
+        		"interval": event.interval
 			}
 		)
 		return result.acknowledged
 
-	def remove_event(self, user, event):
-		result = self.db.users.update_one(
+	# def append_event(self, user, event):
+	# 	result = self.db.event.update_one(
+	# 		{
+	# 			"_id": user,
+	# 		},
+	# 		{
+	# 			"$addToSet": {
+	# 				"events": {
+	# 					"name": event.name,
+ #        				"created_time": event.created_time,
+ #        				"interval": event.interval
+	# 				}
+	# 			}
+	# 		}
+	# 	)
+	# 	return result.acknowledged
+
+	def remove_event(self, event):
+		result = self.db.event.remove(
 			{
-				"_id": user
-			},
-			{
-				"$pull": {
-					"events": {
-						"name": event.name
-					}
-				}
+				"target": event.target,
+				"name": event.name
 			}
 		)
 		return result.acknowledged
 
-	def reset_event(self, user, event):
-		result = self.db.users.update_one(
+	def reset_event(self, event):
+		result = self.db.event.update_one(
 			{
-				"_id": user,
-				"events.name": event.name
+				"target": event.user,
+				"name": event.name
 			},
 			{
 				"$set": {
-					'events.$.last_notified_time': 0,
-					'events.$.created_time': int(time()),
-
+					'last_notified_time': 0,
+					'created_time': int(time())
 				}
 			}
 		)

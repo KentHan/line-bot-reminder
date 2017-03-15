@@ -15,20 +15,20 @@ class EventBO:
 
 	def handle_add_command(self, user, options):
 		print(options)
-		event = Event(options["name"], int(time()), int(options["interval"]))
-		if self.dao.has_user(user):
-			return self.dao.append_event(user, event)
+		event = Event(user, options["name"], int(time()), int(options["interval"]))
+		if self.dao.has_event(event):
+			pass
 		else:
-			return self.dao.add_user_and_event(user, event)
+			return self.dao.add_event(event)
 
 	def handle_remove_command(self, user, options):
 		print("options: ", options)
-		event = Event(options["name"])
+		event = Event(user, options["name"])
 		return self.dao.remove_event(user, event)
 
 	def handle_reset_command(self, user, options):
 		print("options: ", options)
-		event = Event(options["name"])
+		event = Event(user, options["name"])
 		return self.dao.reset_event(user, event)
 
 	def send_notification(self):
