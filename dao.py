@@ -56,14 +56,6 @@ class EventDAO:
 		)
 		return result.count() == 1
 
-	# def has_user(self, user):
-	# 	result = self.db.event.find(
-	# 		{
-	# 			"user": user
-	# 		}
-	# 	)
-	# 	return result.count() == 1
-
 	def add_event(self, event):
 		result = self.db.event.insert_one(
 			{
@@ -74,23 +66,6 @@ class EventDAO:
 			}
 		)
 		return result.acknowledged
-
-	# def append_event(self, user, event):
-	# 	result = self.db.event.update_one(
-	# 		{
-	# 			"_id": user,
-	# 		},
-	# 		{
-	# 			"$addToSet": {
-	# 				"events": {
-	# 					"name": event.name,
- #        				"created_time": event.created_time,
- #        				"interval": event.interval
-	# 				}
-	# 			}
-	# 		}
-	# 	)
-	# 	return result.acknowledged
 
 	def remove_event(self, event):
 		result = self.db.event.remove(
