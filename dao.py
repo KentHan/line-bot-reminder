@@ -68,7 +68,7 @@ class EventDAO:
 		return result.acknowledged
 
 	def remove_event(self, event):
-		result = self.db.event.remove(
+		result = self.db.event.delete_one(
 			{
 				"target": event.target,
 				"name": event.name
