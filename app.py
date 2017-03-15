@@ -138,7 +138,7 @@ def handle_message(event):
 
 
 def command_parser(input):
-    keys = ["name", "interval"]
+    keys = ["name", "interval", "alarm_time"]
     values = input.split(" ")
     return dict(zip(keys, values))
 

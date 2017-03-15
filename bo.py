@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from time import time
+from time import time, mktime
+from datetime import datetime
 
 import sys
 reload(sys)     
@@ -15,7 +16,13 @@ class EventBO:
 
 	def handle_add_command(self, user, options):
 		print(options)
-		event = Event(user, options["name"], int(time()), int(options["interval"]))
+
+		if "alarm_time" in options:
+			created_time = self.parse_local_time_to_timestamp(options["alarm_time"])
+		else:
+			created_time = int(time())
+
+		event = Event(user, options["name"], created_time, int(options["interval"]))
 		if self.dao.has_event(event):
 			pass
 		else:
@@ -67,3 +74,10 @@ class EventBO:
 		times_string = "%d%s" % (times, counter)
 		output = "離上一次\"%s\"已經%s了！" % (name, times_string)
 		return output
+
+	def parse_local_time_to_timestamp(self, inputted_hour_and_minute):
+		today = datetime.fromtimestamp(int(time())).strftime('%Y-%m-%d')
+		composed_datetime_string = "%s %s" % (today, inputted_hour_and_minute)
+
+		assigned_timestamp = int(mktime(datetime.strptime(composed_datetime_string, "%Y-%m-%d %H:%M").timetuple()))
+		return assigned_timestamp
