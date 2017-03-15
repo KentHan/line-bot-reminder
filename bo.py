@@ -31,12 +31,12 @@ class EventBO:
 	def handle_remove_command(self, user, options):
 		print("options: ", options)
 		event = Event(user, options["name"])
-		return self.dao.remove_event(user, event)
+		return self.dao.remove_event(event)
 
 	def handle_reset_command(self, user, options):
 		print("options: ", options)
 		event = Event(user, options["name"])
-		return self.dao.reset_event(user, event)
+		return self.dao.reset_event(event)
 
 	def send_notification(self):
 		events = self.dao.query_all_events()
