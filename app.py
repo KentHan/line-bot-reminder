@@ -105,6 +105,9 @@ MESSAGE_HELP = """
 
 * 移除事件
 /remove <事件名>
+
+* 列出所有事件
+/list
 """
 
 MESSAGE_ERROR = "我看不懂，試試看輸入 /help"
@@ -124,6 +127,8 @@ def handle_message(event):
         result = bo.handle_remove_command(user_id, command_parser(text[8:]))
     elif text.startswith("/reset"):
         result = bo.handle_reset_command(user_id, command_parser(text[7:]))
+    elif text.startswith("/list"):
+        result = bo.handle_list_command(user_id, command_parser(text[7:]))
     elif text.startswith("/help"):
         send_text_message(user_id, MESSAGE_HELP)
     else:

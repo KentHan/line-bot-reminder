@@ -38,6 +38,11 @@ class EventBO:
 		event = Event(user, options["name"])
 		return self.dao.reset_event(event)
 
+	def handle_list_command(self, user, options):
+		print("options:", options)
+		events = self.dao.query_events_by_target(user)
+		send_text_message(self.compose_event_list_message(events))
+
 	def send_notification(self):
 		events = self.dao.query_all_events()
 		for event in events:
@@ -75,9 +80,20 @@ class EventBO:
 		output = "離上一次\"%s\"已經%s了！" % (name, times_string)
 		return output
 
+	def compose_event_list_message(self, events):
+		output = ""
+		for event in events:
+			line = "%s: %d (%s)" % (event.name, event.interval, 
+				self.parse_timestamp_to_local_time(event.last_notified_time))
+			output += line + "\n"
+		return output
+
 	def parse_local_time_to_timestamp(self, inputted_hour_and_minute):
 		today = datetime.fromtimestamp(int(time())).strftime('%Y-%m-%d')
 		composed_datetime_string = "%s %s" % (today, inputted_hour_and_minute)
 
 		assigned_timestamp = int(mktime(datetime.strptime(composed_datetime_string, "%Y-%m-%d %H:%M").timetuple()))
 		return assigned_timestamp
+
+	def parse_timestamp_to_local_time(timestamp):
+		return datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S')

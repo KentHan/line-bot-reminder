@@ -91,7 +91,12 @@ class EventDAO:
 		)
 		return result.acknowledged
 
-	def query_event_from_user(self, user):
-		pass
+	def query_events_by_target(self, target):
+		cursor = self.db.event.find(
+			{
+				"target": target
+			})
+		events = cursor[:]
+		return events
 
 		
