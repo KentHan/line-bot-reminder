@@ -62,10 +62,24 @@ class TestApp(unittest.TestCase):
         self.assertEqual(output_options, {})
 
     @patch('dao.EventDAO')
+    def test_EventBO_handle_add_command_with_alarm_time(self, MockEventDAO):
+        options = {"name": "test_event",
+                    "interval": 86400,
+                    "alarm_time": "21:00"}
+        user = "test_user"
+
+        MockEventDAO.has_event.return_value = False
+        MockEventDAO.add_event.return_value = True
+        bo = EventBO(MockEventDAO)
+
+        result = bo.handle_add_command(user, options)
+        self.assertTrue(result)
+
+    @patch('dao.EventDAO')
     def test_EventBO_handle_remove_command(self, MockEventDAO):
         options = {"name": "test_event"}
         user = "test_user"
-        
+
         MockEventDAO.remove_event.return_value = True
         bo = EventBO(MockEventDAO)
 
