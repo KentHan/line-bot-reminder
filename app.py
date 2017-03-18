@@ -123,11 +123,11 @@ def handle_message(event):
     bo = EventBO()
 
     if text.startswith("/add"):
-        result = bo.handle_add_command(user_id, command_parser(text[5:]))
+        result = bo.handle_add_command(user_id, command_parser(text))
     elif text.startswith("/remove"):
-        result = bo.handle_remove_command(user_id, command_parser(text[8:]))
+        result = bo.handle_remove_command(user_id, command_parser(text))
     elif text.startswith("/reset"):
-        result = bo.handle_reset_command(user_id, command_parser(text[7:]))
+        result = bo.handle_reset_command(user_id, command_parser(text))
     elif text.startswith("/list"):
         bo.handle_list_command(user_id, command_parser(text[7:]))
     elif text.startswith("/help"):
@@ -145,8 +145,11 @@ def handle_message(event):
             send_text_message(user_id, MESSAGE_ERROR)
 
 def command_parser(input):
+    input = input.strip()
+    options_start_index = input.find(" ") + 1
+    options_string = input[options_start_index:]
     keys = ["name", "interval", "alarm_time"]
-    values = input.split(" ")
+    values = options_string.split(" ")
     return dict(zip(keys, values))
 
 if __name__ == '__main__':

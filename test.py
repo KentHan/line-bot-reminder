@@ -36,19 +36,21 @@ class TestApp(unittest.TestCase):
         rv.close()
 
     def test_input_add_parameters(self):
-        input = "-n clean -t 86400"
+        input = "/add clean 86400 21:00"
         output_options = command_parser(input)
-        self.assertEqual(output_options, [("-n", "clean"), ("-t", "86400")])
+        self.assertEqual(output_options, {"name": "clean", 
+                                            "interval": "86400", 
+                                            "alarm_time": "21:00"})
 
     def test_input_remove_parameters(self):
-        input = "-n clean"
+        input = "/remove clean"
         output_options = command_parser(input)
-        self.assertEqual(output_options, [("-n", "clean")])
+        self.assertEqual(output_options, {"name": "clean"})
 
     def test_input_reset_parameters(self):
-        input = "-n clean"
+        input = "/reset clean"
         output_options = command_parser(input)
-        self.assertEqual(output_options, [("-n", "clean")])
+        self.assertEqual(output_options, {"name": "clean"})
 
 
 if __name__ == '__main__':
