@@ -12,9 +12,14 @@ from event import Event
 from message import send_text_message
 
 class EventBO:
-	
-	def __init__(self):
-		self.dao = EventDAO()
+
+	def __init__(self, dao=None):
+		if dao == None:
+			dao = EventDAO()
+		self.dao = dao
+
+	def set_dao(self, dao):
+		self.dao = dao
 
 	def handle_add_command(self, user, options):
 		print(options)

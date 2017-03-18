@@ -3,8 +3,12 @@
 """Tests for the Flask Heroku template."""
 
 import unittest
+from mock import patch
+
 from app import app
 from app import command_parser
+from bo import EventBO
+from event import Event
 
 class TestApp(unittest.TestCase):
 
@@ -57,6 +61,16 @@ class TestApp(unittest.TestCase):
         output_options = command_parser(input)
         self.assertEqual(output_options, {})
 
+    @patch('dao.EventDAO')
+    def test_EventBO_handle_remove_command(self, MockEventDAO):
+        options = {"name": "test_event"}
+        user = "test_user"
+        
+        MockEventDAO.remove_event.return_value = True
+        bo = EventBO(MockEventDAO)
+
+        result = bo.handle_remove_command(user, options)
+        self.assertTrue(result)
 
 if __name__ == '__main__':
     unittest.main()
