@@ -8,7 +8,7 @@ sys.setdefaultencoding("utf-8")
 from flask import Flask, render_template, request, redirect, url_for
 
 from linebot import (
-    LineBotApi, WebhookHandler
+    LineBotApi, WebhookParser
 )
 from linebot.exceptions import (
     InvalidSignatureError
@@ -22,17 +22,23 @@ from message import send_text_message
 
 app = Flask(__name__)
 
-channel_secret = os.getenv('LINE_CHANNEL_SECRET')
-channel_access_token = os.getenv('LINE_CHANNEL_ACCESS_TOKEN')
-if channel_secret is None:
-    print('Specify LINE_CHANNEL_SECRET as environment variable.')
-    sys.exit(1)
-if channel_access_token is None:
-    print('Specify LINE_CHANNEL_ACCESS_TOKEN as environment variable.')
-    sys.exit(1)
+MESSAGE_HELP = """
+* 加入事件
+/add <事件名> <提醒間隔(秒)> <指定時間>
+例如：/add 洗衣服 86400 20:00
+    
+* 重置提醒
+/reset <事件名>
 
-line_bot_api = LineBotApi(channel_access_token)
-handler = WebhookHandler(channel_secret)
+* 移除事件
+/remove <事件名>
+
+* 列出所有事件
+/list
+"""
+
+MESSAGE_ERROR = "我看不懂，試試看輸入 /help"
+MESSAGE_OK = "OK!"
 
 ###
 # Routing for your application.
@@ -80,6 +86,17 @@ def page_not_found(error):
 
 @app.route("/callback", methods=['POST'])
 def callback():
+    channel_secret = os.getenv('LINE_CHANNEL_SECRET')
+    channel_access_token = os.getenv('LINE_CHANNEL_ACCESS_TOKEN')
+    if channel_secret is None:
+        print('Specify LINE_CHANNEL_SECRET as environment variable.')
+        sys.exit(1)
+    if channel_access_token is None:
+        print('Specify LINE_CHANNEL_ACCESS_TOKEN as environment variable.')
+        sys.exit(1)
+
+    line_bot_api = LineBotApi(channel_access_token)
+    parser = WebhookParser(channel_secret)
     signature = request.headers['X-Line-Signature']
 
     # get request body as text
@@ -89,31 +106,15 @@ def callback():
 
     # parse webhook body
     try:
-        events = handler.handle(body, signature)
+        events = parser.parse(body, signature)
+        for event in events:
+            if isinstance(event, MessageEvent):
+                handle_message(event)
     except InvalidSignatureError:
         abort(400)
 
     return 'OK'
 
-MESSAGE_HELP = """
-* 加入事件
-/add <事件名> <提醒間隔(秒)> <指定時間>
-例如：/add 洗衣服 86400 20:00
-    
-* 重置提醒
-/reset <事件名>
-
-* 移除事件
-/remove <事件名>
-
-* 列出所有事件
-/list
-"""
-
-MESSAGE_ERROR = "我看不懂，試試看輸入 /help"
-MESSAGE_OK = "OK!"
-
-@handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     user_id = event.source.sender_id
     source_type = event.source.type
@@ -142,7 +143,6 @@ def handle_message(event):
             send_text_message(user_id, MESSAGE_OK)
         else:
             send_text_message(user_id, MESSAGE_ERROR)
-
 
 def command_parser(input):
     keys = ["name", "interval", "alarm_time"]
