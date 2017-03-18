@@ -52,6 +52,11 @@ class TestApp(unittest.TestCase):
         output_options = command_parser(input)
         self.assertEqual(output_options, {"name": "clean"})
 
+    def test_input_list_parameters(self):
+        input = "/list"
+        output_options = command_parser(input)
+        self.assertEqual(output_options, {})
+
 
 if __name__ == '__main__':
     unittest.main()

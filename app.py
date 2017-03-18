@@ -129,7 +129,7 @@ def handle_message(event):
     elif text.startswith("/reset"):
         result = bo.handle_reset_command(user_id, command_parser(text))
     elif text.startswith("/list"):
-        bo.handle_list_command(user_id, command_parser(text[7:]))
+        bo.handle_list_command(user_id, command_parser(text))
     elif text.startswith("/help"):
         send_text_message(user_id, MESSAGE_HELP)
     else:
@@ -147,10 +147,13 @@ def handle_message(event):
 def command_parser(input):
     input = input.strip()
     options_start_index = input.find(" ") + 1
-    options_string = input[options_start_index:]
-    keys = ["name", "interval", "alarm_time"]
-    values = options_string.split(" ")
-    return dict(zip(keys, values))
+    if options_start_index == 0:
+        return {}
+    else:
+        options_string = input[options_start_index:]
+        keys = ["name", "interval", "alarm_time"]
+        values = options_string.split(" ")
+        return dict(zip(keys, values))
 
 if __name__ == '__main__':
     app.run(debug=True)
