@@ -11,4 +11,4 @@ line_bot_api = LineBotApi(channel_access_token)
 
 def send_text_message(user_id, text):
 	message = TextMessage("1", text)
-	line_bot_api.push_message(user_id, message)
+	return line_bot_api.push_message(user_id, message)

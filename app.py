@@ -121,6 +121,7 @@ def handle_message(event):
     text = event.message.text
     bo = EventBO()
 
+    result = False
     if text.startswith("/add"):
         result = bo.handle_add_command(user_id, command_parser(text[5:]))
     elif text.startswith("/remove"):
@@ -130,7 +131,7 @@ def handle_message(event):
     elif text.startswith("/list"):
         result = bo.handle_list_command(user_id, command_parser(text[7:]))
     elif text.startswith("/help"):
-        send_text_message(user_id, MESSAGE_HELP)
+        result = send_text_message(user_id, MESSAGE_HELP)
     else:
         if source_type == "user":
             send_text_message(user_id, MESSAGE_ERROR)
