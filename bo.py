@@ -42,6 +42,7 @@ class EventBO:
 		print("options:", options)
 		events = self.dao.query_events_by_target(target_id)
 		send_text_message(target_id, self.compose_event_list_message(events))
+		return true
 
 	def send_notification(self):
 		events = self.dao.query_all_events()
