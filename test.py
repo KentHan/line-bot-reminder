@@ -121,9 +121,21 @@ class TestApp(unittest.TestCase):
                     "name": "test_target", 
                     "interval": 86400}
             ]
-        # MockMessageApi.send_text_message
         bo = EventBO(MockEventDAO, MockMessageApi)
         bo.handle_list_command(user, options)
+
+    @patch('dao.EventDAO')
+    @patch('message.MessageApi')
+    def test_EventBO_send_notification(self, MockEventDAO, MockMessageApi):
+        MockEventDAO.query_all_events.return_value = [
+                {"last_notified_time": 1484123123, 
+                    "name": "test_target", 
+                    "interval": 86400,
+                    "created_time": 1484123123,
+                    "target": "test_target"}
+            ]
+        bo = EventBO(MockEventDAO, MockMessageApi)
+        bo.send_notification()
 
 if __name__ == '__main__':
     unittest.main()
