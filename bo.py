@@ -81,8 +81,11 @@ class EventBO:
 	def compose_event_list_message(self, events):
 		output = ""
 		for event in events:
-			line = "%s: %d (%s)" % (event["name"], event["interval"], 
-				self.parse_timestamp_to_local_time(event["last_notified_time"]))
+			if "last_notified_time" in event:
+				line = "%s: %d (%s)" % (event["name"], event["interval"], 
+					self.parse_timestamp_to_local_time(event["last_notified_time"]))
+			else:
+				line = "%s: %d" % (event["name"], event["interval"])
 			output += line + "\n"
 		return output
 
