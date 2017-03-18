@@ -1,6 +1,5 @@
 #!/usr/bin/env python
-
-"""Tests for the Flask Heroku template."""
+# -*- coding: utf-8 -*-
 
 import unittest
 from mock import patch
@@ -136,6 +135,41 @@ class TestApp(unittest.TestCase):
             ]
         bo = EventBO(MockEventDAO, MockMessageApi)
         bo.send_notification()
+
+    @patch('dao.EventDAO')
+    @patch('message.MessageApi')
+    def test_compose_alert_message_minutes(self, MockEventDAO, MockMessageApi):
+        name = "test_event"
+        interval = 60
+        time_diff = 120
+
+        bo = EventBO(MockEventDAO, MockMessageApi)
+        output = bo.compose_alert_message(name, time_diff, interval)
+        self.assertEqual(output, "離上一次\"test_event\"已經2分鐘了！")
+
+    @patch('dao.EventDAO')
+    @patch('message.MessageApi')
+    def test_compose_alert_message_hours(self, MockEventDAO, MockMessageApi):
+        name = "test_event"
+        interval = 3600
+        time_diff = 7200
+
+        bo = EventBO(MockEventDAO, MockMessageApi)
+        output = bo.compose_alert_message(name, time_diff, interval)
+        self.assertEqual(output, "離上一次\"test_event\"已經2小時了！")
+
+
+    @patch('dao.EventDAO')
+    @patch('message.MessageApi')
+    def test_compose_alert_message_days(self, MockEventDAO, MockMessageApi):
+        name = "test_event"
+        interval = 86400
+        time_diff = 172800
+
+        bo = EventBO(MockEventDAO, MockMessageApi)
+        output = bo.compose_alert_message(name, time_diff, interval)
+        self.assertEqual(output, "離上一次\"test_event\"已經2天了！")
+
 
 if __name__ == '__main__':
     unittest.main()
