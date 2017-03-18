@@ -10,7 +10,7 @@ class Event:
 		self.created_time = created_time
 		self.interval = interval
 
-	def debug_print(self):
+	def __str__(self):
 		print("name: %s" % self.name, 
 			"created_time: %d" % self.created_time, 
 			"interval: %d" % self.interval,

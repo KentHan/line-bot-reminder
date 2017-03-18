@@ -170,6 +170,5 @@ class TestApp(unittest.TestCase):
         output = bo.compose_alert_message(name, time_diff, interval)
         self.assertEqual(output, "離上一次\"test_event\"已經2天了！")
 
-
 if __name__ == '__main__':
     unittest.main()
