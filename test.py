@@ -76,6 +76,30 @@ class TestApp(unittest.TestCase):
         self.assertTrue(result)
 
     @patch('dao.EventDAO')
+    def test_EventBO_handle_add_command_without_alarm_time(self, MockEventDAO):
+        options = {"name": "test_event",
+                    "interval": 86400}
+        user = "test_user"
+
+        MockEventDAO.has_event.return_value = False
+        MockEventDAO.add_event.return_value = True
+        bo = EventBO(MockEventDAO)
+
+        result = bo.handle_add_command(user, options)
+        self.assertTrue(result)
+
+    @patch('dao.EventDAO')
+    def test_EventBO_handle_reset_command(self, MockEventDAO):
+        options = {"name": "test_event"}
+        user = "test_user"
+
+        MockEventDAO.reset_command.return_value = True
+        bo = EventBO(MockEventDAO)
+
+        result = bo.handle_reset_command(user, options)
+        self.assertTrue(result)
+
+    @patch('dao.EventDAO')
     def test_EventBO_handle_remove_command(self, MockEventDAO):
         options = {"name": "test_event"}
         user = "test_user"
@@ -85,6 +109,21 @@ class TestApp(unittest.TestCase):
 
         result = bo.handle_remove_command(user, options)
         self.assertTrue(result)
+
+    @patch('dao.EventDAO')
+    @patch('message.MessageApi')
+    def test_EventBO_handle_list_command(self, MockEventDAO, MockMessageApi):
+        options = {}
+        user = "test_user"
+
+        MockEventDAO.query_events_by_target.return_value = [
+                {"last_notified_time": 1484123123, 
+                    "name": "test_target", 
+                    "interval": 86400}
+            ]
+        # MockMessageApi.send_text_message
+        bo = EventBO(MockEventDAO, MockMessageApi)
+        bo.handle_list_command(user, options)
 
 if __name__ == '__main__':
     unittest.main()

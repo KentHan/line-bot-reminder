@@ -13,10 +13,10 @@ from message import MessageApi
 
 class EventBO:
 
-	def __init__(self, dao=None, message=None):
+	def __init__(self, dao=None, message_api=None):
 		if dao == None:
 			dao = EventDAO()
-		if message == None:
+		if message_api == None:
 			message_api = MessageApi()
 		
 		self.dao = dao
@@ -52,10 +52,10 @@ class EventBO:
 	def handle_list_command(self, target_id, options):
 		print("options:", options)
 		events = self.dao.query_events_by_target(target_id)
-		if events.count() > 0:
-			send_text_message(target_id, self.compose_event_list_message(events))
+		if len(events) > 0:
+			self.message_api.send_text_message(target_id, self.compose_event_list_message(events))
 		else:
-			send_text_message(target_id, "No event!")
+			self.message_api.send_text_message(target_id, "No event!")
 
 	def send_notification(self):
 		events = self.dao.query_all_events()
