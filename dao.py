@@ -85,7 +85,7 @@ class EventDAO:
 			{
 				"$set": {
 					'last_notified_time': 0,
-					'created_time': int(time())
+					'created_time': event["last_notified_time"]
 				}
 			}
 		)
