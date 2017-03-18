@@ -70,7 +70,7 @@ class EventBO:
 			if current_time - last_notified_time >= interval:
 				time_diff = current_time - created_time
 				message = self.compose_alert_message(name, time_diff, interval)
-				message_api.send_text_message(target_id, message)
+				self.message_api.send_text_message(target_id, message)
 				self.dao.update_last_notified_time(target_id, name, last_notified_time + interval)
 
 	def compose_alert_message(self, name, time_diff, interval):
