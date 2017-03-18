@@ -9,14 +9,18 @@ sys.setdefaultencoding("utf-8")
 
 from dao import EventDAO
 from event import Event
-from message import send_text_message
+from message import MessageApi
 
 class EventBO:
 
-	def __init__(self, dao=None):
+	def __init__(self, dao=None, message=None):
 		if dao == None:
 			dao = EventDAO()
+		if message == None:
+			message_api = MessageApi()
+		
 		self.dao = dao
+		self.message_api = message_api
 
 	def set_dao(self, dao):
 		self.dao = dao
@@ -66,7 +70,7 @@ class EventBO:
 			if current_time - last_notified_time >= interval:
 				time_diff = current_time - created_time
 				message = self.compose_alert_message(name, time_diff, interval)
-				send_text_message(target_id, message)
+				message_api.send_text_message(target_id, message)
 				self.dao.update_last_notified_time(target_id, name, last_notified_time + interval)
 
 	def compose_alert_message(self, name, time_diff, interval):
