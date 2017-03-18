@@ -42,9 +42,9 @@ class EventBO:
 		print("options:", options)
 		events = self.dao.query_events_by_target(target_id)
 		if events.count() > 0:
-			return send_text_message(target_id, self.compose_event_list_message(events))
+			send_text_message(target_id, self.compose_event_list_message(events))
 		else:
-			return send_text_message(target_id, "No event!")
+			send_text_message(target_id, "No event!")
 
 	def send_notification(self):
 		events = self.dao.query_all_events()
