@@ -38,10 +38,10 @@ class EventBO:
 		event = Event(user, options["name"])
 		return self.dao.reset_event(event)
 
-	def handle_list_command(self, user, options):
+	def handle_list_command(self, target_id, options):
 		print("options:", options)
-		events = self.dao.query_events_by_target(user)
-		send_text_message(self.compose_event_list_message(events))
+		events = self.dao.query_events_by_target(target_id)
+		send_text_message(target_id, self.compose_event_list_message(events))
 
 	def send_notification(self):
 		events = self.dao.query_all_events()
@@ -83,8 +83,8 @@ class EventBO:
 	def compose_event_list_message(self, events):
 		output = ""
 		for event in events:
-			line = "%s: %d (%s)" % (event.name, event.interval, 
-				self.parse_timestamp_to_local_time(event.last_notified_time))
+			line = "%s: %d (%s)" % (event["name"], event["interval"], 
+				self.parse_timestamp_to_local_time(event["last_notified_time"]))
 			output += line + "\n"
 		return output
 
@@ -95,5 +95,5 @@ class EventBO:
 		assigned_timestamp = int(mktime(datetime.strptime(composed_datetime_string, "%Y-%m-%d %H:%M").timetuple()))
 		return assigned_timestamp
 
-	def parse_timestamp_to_local_time(timestamp):
+	def parse_timestamp_to_local_time(self, timestamp):
 		return datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S')
