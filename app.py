@@ -137,10 +137,11 @@ def handle_message(event):
         else:
             return
 
-    if result:
-        send_text_message(user_id, MESSAGE_OK)
-    else:
-        send_text_message(user_id, MESSAGE_ERROR)
+    if "result" in locals():
+        if result:
+            send_text_message(user_id, MESSAGE_OK)
+        else:
+            send_text_message(user_id, MESSAGE_ERROR)
 
 
 def command_parser(input):
