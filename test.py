@@ -138,7 +138,7 @@ class TestApp(unittest.TestCase):
 
     @patch('dao.EventDAO')
     @patch('message.MessageApi')
-    def test_compose_alert_message_minutes(self, MockEventDAO, MockMessageApi):
+    def test_EventDAO_compose_alert_message_minutes(self, MockEventDAO, MockMessageApi):
         name = "test_event"
         interval = 60
         time_diff = 120
@@ -149,7 +149,7 @@ class TestApp(unittest.TestCase):
 
     @patch('dao.EventDAO')
     @patch('message.MessageApi')
-    def test_compose_alert_message_hours(self, MockEventDAO, MockMessageApi):
+    def test_EventDAO_compose_alert_message_hours(self, MockEventDAO, MockMessageApi):
         name = "test_event"
         interval = 3600
         time_diff = 7200
@@ -161,7 +161,7 @@ class TestApp(unittest.TestCase):
 
     @patch('dao.EventDAO')
     @patch('message.MessageApi')
-    def test_compose_alert_message_days(self, MockEventDAO, MockMessageApi):
+    def test_EventDAO_compose_alert_message_days(self, MockEventDAO, MockMessageApi):
         name = "test_event"
         interval = 86400
         time_diff = 172800
