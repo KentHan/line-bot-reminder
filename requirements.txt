@@ -4,3 +4,4 @@ mock
 gunicorn
 line-bot-sdk
 pymongo
+coverage
