@@ -22,6 +22,9 @@ from message import send_text_message
 
 app = Flask(__name__)
 
+channel_secret = os.getenv('LINE_CHANNEL_SECRET')
+channel_access_token = os.getenv('LINE_CHANNEL_ACCESS_TOKEN')
+
 MESSAGE_HELP = """
 * 加入事件
 /add <事件名> <提醒間隔(秒)> <指定時間>
@@ -86,8 +89,6 @@ def page_not_found(error):
 
 @app.route("/callback", methods=['POST'])
 def callback():
-    channel_secret = os.getenv('LINE_CHANNEL_SECRET')
-    channel_access_token = os.getenv('LINE_CHANNEL_ACCESS_TOKEN')
     if channel_secret is None:
         print('Specify LINE_CHANNEL_SECRET as environment variable.')
         sys.exit(1)
