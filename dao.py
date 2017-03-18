@@ -32,7 +32,7 @@ class EventDAO:
 
 	def query_all_events(self):
 		cursor = self.db.event.find()
-		return cursor[:]
+		return list(cursor)
 
 	def update_last_notified_time(self, user, name, last_notified_time):
 		result = self.db.event.update_one(
@@ -97,6 +97,6 @@ class EventDAO:
 			{
 				"target": target
 			})
-		return cursor[:]
+		return list(cursor)
 
 		
