@@ -8,6 +8,10 @@ script:
   coverage run --source=./ --omit="templates/*" test.py
 after_success:
   coveralls
+deploy:
+  provider: heroku
+  api_key:
+    secure: f7a3f16c-2239-4aba-bb83-513814ed661e
 
 branches:
   only:
