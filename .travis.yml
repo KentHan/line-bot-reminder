@@ -8,3 +8,7 @@ script:
   coverage run --source=./ --omit="templates/*" test.py
 after_success:
   coveralls
+
+branches:
+  only:
+    - master
