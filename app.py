@@ -41,7 +41,7 @@ MESSAGE_HELP = """
 """
 
 MESSAGE_ERROR = "我看不懂，試試看輸入 /help"
-MESSAGE_OK = "OK!"
+MESSAGE_OK = "OK!~~"
 
 ###
 # Routing for your application.
