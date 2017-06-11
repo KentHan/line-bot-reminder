@@ -80,7 +80,7 @@ class EventDAO:
 	def reset_event(self, event):
 		result = self.db.event.update_one(
 			{
-				"target": event.user,
+				"target": event.target,
 				"name": event.name
 			},
 			{
