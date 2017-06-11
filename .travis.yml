@@ -13,6 +13,6 @@ deploy:
   api_key:
     secure: f7a3f16c-2239-4aba-bb83-513814ed661e
 
-branches:
-  only:
-    - master
+# branches:
+#   only:
+#     - master
