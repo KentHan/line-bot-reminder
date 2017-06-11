@@ -12,3 +12,7 @@ deploy:
   provider: heroku
   api_key:
     secure: f7a3f16c-2239-4aba-bb83-513814ed661e
+  app: line-bot-reminder
+  on:
+    repo: KentHan/line-bot-reminder
+    branch: master
