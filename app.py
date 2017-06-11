@@ -114,7 +114,7 @@ def callback():
     except InvalidSignatureError:
         abort(400)
 
-    return 'OK'
+    return 'OK~~'
 
 def handle_message(event):
     user_id = event.source.sender_id
