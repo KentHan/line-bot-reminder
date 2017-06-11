@@ -120,6 +120,7 @@ def handle_message(event):
     user_id = event.source.sender_id
     source_type = event.source.type
     
+    print(user_id)
     text = event.message.text
     bo = EventBO()
 
