@@ -96,7 +96,7 @@ class TestApp(unittest.TestCase):
         bo = EventBO(MockEventDAO)
 
         result = bo.handle_reset_command(user, options)
-        self.assertTrue(False)
+        self.assertTrue(result)
 
     @patch('dao.EventDAO')
     def test_EventBO_handle_remove_command(self, MockEventDAO):
