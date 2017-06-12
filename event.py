@@ -11,8 +11,10 @@ class Event:
 		self.interval = interval
 
 	def __str__(self):
-		print("name: %s" % self.name, 
-			"created_time: %d" % self.created_time, 
-			"interval: %d" % self.interval,
-			"last_notified_time: %d" % self.last_notified_time,
-			"current_time: %d" % int(time()))
+		return "target: {}\nname: {}\ncreated_time: {}\ninterval: {}\nlast_notified_time: {}\ncurrent_time: {}".format(
+			self.target,
+			self.name, 
+			self.created_time, 
+			self.interval, 
+			self.last_notified_time if hasattr(self, "last_notified_time") else 0, 
+			int(time()))
