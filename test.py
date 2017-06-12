@@ -144,6 +144,8 @@ class TestApp(unittest.TestCase):
         bo = EventBO(MockEventDAO, MockMessageApi)
         bo.send_notification()
 
+        MockMessageApi.send_text_message.assert_called_once()
+
     @patch('dao.EventDAO')
     @patch('message.MessageApi')
     def test_EventDAO_compose_alert_message_minutes(self, MockEventDAO, MockMessageApi):
