@@ -14,9 +14,12 @@ mongodb_uri = os.getenv("MONGODB_URI")
 
 class EventDAO:
 
-	def __init__(self):
-		self.client = MongoClient(mongodb_uri)
-		self.client.admin.authenticate(mongodb_id, mongodb_pw, mechanism='SCRAM-SHA-1')
+	def __init__(self, client=None):
+		if client is None:
+			self.client = MongoClient(mongodb_uri)
+			self.client.admin.authenticate(mongodb_id, mongodb_pw, mechanism='SCRAM-SHA-1')
+		else:
+			self.client = client
 		self.db = self.client.user_data
 
 	def add_user_and_event(self, user, event):

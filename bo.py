@@ -47,8 +47,6 @@ class EventBO:
 	def handle_reset_command(self, user, options):
 		print("options: ", options)
 		event = self.dao.query_event_by_target_and_name(user, options["name"])
-
-		print(self.dao.reset_event(event))
 		return self.dao.reset_event(event)
 
 	def handle_list_command(self, target_id, options):
