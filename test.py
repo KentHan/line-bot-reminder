@@ -95,7 +95,10 @@ class TestApp(unittest.TestCase):
         options = {"name": "test_event"}
         user = "test_user"
 
-        MockEventDAO.query_event_by_target_and_name.return_value = Event("test target", "test event")
+        MockEventDAO.query_event_by_target_and_name.return_value = \
+            {"target": "test target", 
+             "name": "test event", 
+             "last_notified_time": 0}
         MockEventDAO.reset_event.return_value = True
         
         bo = EventBO(MockEventDAO)
@@ -194,7 +197,7 @@ class TestApp(unittest.TestCase):
         MockDB.user_data.event.update_one.acknowledged.return_value = True
         dao = EventDAO(MockDB)
 
-        self.assertTrue(dao.reset_event(Event("test target", "test name")))
+        self.assertTrue(dao.reset_event({"target": "test target", "name": "test event", "last_notified_time": 0}))
 
 
 if __name__ == '__main__':
