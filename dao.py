@@ -58,7 +58,7 @@ class EventDAO:
 				"name": event.name
 			}
 		)
-		return result.count() == 1
+		return len(result) == 1
 
 	def add_event(self, event):
 		result = self.db.event.insert_one(
