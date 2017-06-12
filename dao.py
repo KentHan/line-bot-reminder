@@ -52,13 +52,13 @@ class EventDAO:
 		return result.acknowledged
 
 	def has_event(self, event):
-		result = self.db.event.find(
+		cursor = self.db.event.find(
 			{
 				"target": event.target,
 				"name": event.name
 			}
 		)
-		return len(result) == 1
+		return len(list(cursor)) == 1
 
 	def add_event(self, event):
 		result = self.db.event.insert_one(

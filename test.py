@@ -201,7 +201,7 @@ class TestApp(unittest.TestCase):
 
     @patch("pymongo.MongoClient")
     def test_EventDAO_has_event(self, MockDB):
-        MockDB.user_data.event.find.return_value = [{"target": "test target"}]
+        MockDB.user_data.event.find.return_value = [{"name": "test event"}]
         dao = EventDAO(MockDB)
 
         self.assertTrue(dao.has_event(Event("test target", "test event")))
