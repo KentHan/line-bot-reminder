@@ -92,7 +92,9 @@ class TestApp(unittest.TestCase):
         options = {"name": "test_event"}
         user = "test_user"
 
-        MockEventDAO.reset_command.return_value = True
+        MockEventDAO.query_event_by_target_and_name.return_value = Event("test target", "test event")
+        MockEventDAO.reset_event.return_value = True
+        
         bo = EventBO(MockEventDAO)
 
         result = bo.handle_reset_command(user, options)
