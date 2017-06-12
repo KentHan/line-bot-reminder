@@ -86,7 +86,7 @@ class EventDAO:
 			{
 				"$set": {
 					'last_notified_time': 0,
-					'created_time': 0
+					'created_time': event["last_notified_time"]
 				}
 			}
 		)
@@ -98,5 +98,13 @@ class EventDAO:
 				"target": target
 			})
 		return list(cursor)
+
+	def query_event_by_target_and_name(self, target, name):
+		cursor = self.db.event.find(
+			{
+				"target": target,
+				"name": name
+			})
+		return list(cursor)[0]
 
 		
