@@ -85,7 +85,8 @@ class EventDAO:
 			},
 			{
 				"$set": {
-					'last_notified_time': 0
+					'last_notified_time': 0,
+					'created_time': 0
 				}
 			}
 		)
