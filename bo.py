@@ -57,14 +57,13 @@ class EventBO:
 		else:
 			self.message_api.send_text_message(target_id, "No event!")
 
-	def send_notification(self):
+	def send_notification(self, current_time=int(time())):
 		events = self.dao.query_all_events()
 		for event in events:
 			target_id = event['target']
 			created_time = event['created_time']
 			interval = event['interval']
 			name = event['name']
-			current_time = int(time())
 			last_notified_time = event['last_notified_time'] if 'last_notified_time' in event and event['last_notified_time'] != 0 else created_time
 
 			if current_time - last_notified_time >= interval:

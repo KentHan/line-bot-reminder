@@ -133,18 +133,35 @@ class TestApp(unittest.TestCase):
 
     @patch('dao.EventDAO')
     @patch('message.MessageApi')
-    def test_EventBO_send_notification(self, MockEventDAO, MockMessageApi):
+    def test_EventBO_send_notification_should_send(self, MockEventDAO, MockMessageApi):
         MockEventDAO.query_all_events.return_value = [
-                {"last_notified_time": 1484123123, 
+                {"last_notified_time": 0, 
                     "name": "test_target", 
-                    "interval": 86400,
-                    "created_time": 1484123123,
+                    "interval": 100,
+                    "created_time": 10000,
                     "target": "test_target"}
             ]
         bo = EventBO(MockEventDAO, MockMessageApi)
-        bo.send_notification()
+        bo.send_notification(current_time=10100)
 
         MockMessageApi.send_text_message.assert_called_once()
+        MockEventDAO.update_last_notified_time.assert_called_once()
+
+    @patch('dao.EventDAO')
+    @patch('message.MessageApi')
+    def test_EventBO_send_notification_should_not_send(self, MockEventDAO, MockMessageApi):
+        MockEventDAO.query_all_events.return_value = [
+                {"last_notified_time": 0, 
+                    "name": "test_target", 
+                    "interval": 100,
+                    "created_time": 10000,
+                    "target": "test_target"}
+            ]
+        bo = EventBO(MockEventDAO, MockMessageApi)
+        bo.send_notification(current_time=10001)
+
+        MockMessageApi.send_text_message.assert_not_called()
+        MockEventDAO.update_last_notified_time.assert_not_called()
 
     @patch('dao.EventDAO')
     @patch('message.MessageApi')
