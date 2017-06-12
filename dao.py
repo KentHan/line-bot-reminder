@@ -83,13 +83,13 @@ class EventDAO:
 	def reset_event(self, event):
 		result = self.db.event.update_one(
 			{
-				"target": event.target,
-				"name": event.name
+				"target": event["target"],
+				"name": event["name"]
 			},
 			{
 				"$set": {
 					'last_notified_time': 0,
-					'created_time': event.last_notified_time
+					'created_time': event["last_notified_time"]
 				}
 			}
 		)
