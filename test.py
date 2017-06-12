@@ -199,6 +199,26 @@ class TestApp(unittest.TestCase):
 
         self.assertTrue(dao.reset_event({"target": "test target", "name": "test event", "last_notified_time": 0}))
 
+    @patch("pymongo.MongoClient")
+    def test_EventDAO_has_event(self, MockDB):
+        MockDB.user_data.event.find.return_value = [{"target": "test target"}]
+        dao = EventDAO(MockDB)
+
+        self.assertTrue(dao.has_event(Event("test target", "test event")))
+
+    @patch("pymongo.MongoClient")
+    def test_EventDAO_add_event(self, MockDB):
+        MockDB.user_data.event.insert_one.acknowledged.return_value = True
+        dao = EventDAO(MockDB)
+
+        self.assertTrue(dao.add_event(Event("test target", "test event")))
+
+    @patch("pymongo.MongoClient")
+    def test_EventDAO_remove_event(self, MockDB):
+        MockDB.user_data.event.delete_one.acknowledged.return_value = True
+        dao = EventDAO(MockDB)
+
+        self.assertTrue(dao.remove_event(Event("test target", "test event")))
 
 if __name__ == '__main__':
     unittest.main()
