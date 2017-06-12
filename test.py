@@ -4,10 +4,13 @@
 import unittest
 from mock import patch
 
+# from pymongo import MongoClient
+
 from app import app
 from app import command_parser
 from bo import EventBO
 from event import Event
+from dao import EventDAO
 
 class TestApp(unittest.TestCase):
 
@@ -171,6 +174,28 @@ class TestApp(unittest.TestCase):
         bo = EventBO(MockEventDAO, MockMessageApi)
         output = bo.compose_alert_message(name, time_diff, interval)
         self.assertEqual(output, "離上一次\"test_event\"已經2天了！")
+
+    @patch("pymongo.MongoClient")
+    def test_EventDAO_add_user_and_event(self, MockDB):
+        MockDB.user_data.event.insert_one.acknowledged.return_value = True
+        dao = EventDAO(MockDB)
+
+        self.assertTrue(dao.add_user_and_event("test target", Event("test target", "test event")))
+
+    @patch("pymongo.MongoClient")
+    def test_EventDAO_update_last_notified_time(self, MockDB):
+        MockDB.user_data.event.update_one.acknowledged.return_value = True
+        dao = EventDAO(MockDB)
+
+        self.assertTrue(dao.update_last_notified_time("test target", "test name", "test last_notified_time"))
+
+    @patch("pymongo.MongoClient")
+    def test_EventDAO_reset_event(self, MockDB):
+        MockDB.user_data.event.update_one.acknowledged.return_value = True
+        dao = EventDAO(MockDB)
+
+        self.assertTrue(dao.reset_event(Event("test target", "test name")))
+
 
 if __name__ == '__main__':
     unittest.main()
