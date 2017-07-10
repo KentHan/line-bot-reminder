@@ -15,4 +15,4 @@ deploy:
   app: line-bot-reminder
   on:
     repo: KentHan/line-bot-reminder
-    branch: master
+    branch: bootstrap
