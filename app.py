@@ -63,11 +63,9 @@ def about():
 # The functions below should be applicable to all Flask apps.
 ###
 
-@app.route('/<file_name>.txt')
-def send_text_file(file_name):
-    """Send your static text file."""
-    file_dot_text = file_name + '.txt'
-    return app.send_static_file(file_dot_text)
+@app.route('/<file_name>')
+def send_static_file(file_name):
+    return app.send_static_file(file_name)
 
 
 @app.after_request
