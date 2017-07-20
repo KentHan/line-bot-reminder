@@ -20,27 +20,27 @@ class MessageApi():
 	def send_text_message(self, user_id, text):
 		send_text_message(user_id, text)
 
-	def send_template_confirm_message(self, user_id):
-		send_template_confirm_message(user_id)
+	def send_reset_confirm_message(self, user_id, event_name):
+		send_reset_confirm_message(user_id, event_name)
 
 def send_text_message(user_id, text):
 	line_bot_api = LineBotApi(channel_access_token)
 	message = TextMessage("1", text)
 	line_bot_api.push_message(user_id, message)
 
-def send_template_confirm_message(user_id):
+def send_reset_confirm_message(user_id, event_name):
 	message = TemplateSendMessage(
-		alt_text = "Confirm Template",
+		alt_text = "Confirm Reset",
 		template = ConfirmTemplate(
-			text = "Do you want to reset?",
+			text = "Do you want to reset {}?".format(event_name),
 			actions = [
 				MessageTemplateAction(
 					label = "Yes",
-					text = "/help"
+					text = "/reset {}".format(event_name)
 					),
 				MessageTemplateAction(
 					label = "No",
-					text = "/help"
+					text = "/do_nothing"
 					)
 			]
 		)
