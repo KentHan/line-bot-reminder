@@ -18,7 +18,7 @@ from linebot.models import (
 )
 
 from bo import EventBO
-from message import send_text_message
+from message import send_text_message, send_template_confirm_message
 
 app = Flask(__name__)
 
@@ -114,6 +114,11 @@ def callback():
 
     return 'OK~~'
 
+@app.route("/api/list_event", methods=['GET'])
+def list_event():
+    bo = EventBO()
+    bo.handle_list_command(user_id)
+
 def handle_message(event):
     user_id = event.source.sender_id
     source_type = event.source.type
@@ -132,6 +137,8 @@ def handle_message(event):
         bo.handle_list_command(user_id, command_parser(text))
     elif text.startswith("/help"):
         send_text_message(user_id, MESSAGE_HELP)
+    elif text.startswith("/test"):
+        send_template_confirm_message(user_id)
     else:
         if source_type == "user":
             send_text_message(user_id, MESSAGE_ERROR)
