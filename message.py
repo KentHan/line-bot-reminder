@@ -29,10 +29,21 @@ def send_text_message(user_id, text):
 	line_bot_api.push_message(user_id, message)
 
 def send_template_confirm_message(user_id):
+	message = TemplateSendMessage(
+		alt_text = "Confirm Template",
+		template = ConfirmTemplate(
+			text = "Do you want to reset?",
+			actions = [
+				MessageTemplateAction(
+					label = "Yes",
+					text = "/help"
+					),
+				MessageTemplateAction(
+					label = "No",
+					text = "/help"
+					)
+			]
+		)
+	)
 	line_bot_api = LineBotApi(channel_access_token)
-	reset_action = MessageTemplateAction("Yes", "/help")
-	do_nothing_action = MessageTemplateAction("No", "/help")
-	actions = [reset_action, do_nothing_action]
-	confirm_template = ConfirmTemplate("Do you want to reset?", actions)
-	message = TemplateSendMessage("Confirm Template", confirm_template)
 	line_bot_api.push_message(user_id, message)
