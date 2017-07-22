@@ -12,8 +12,8 @@ from bo import EventBO
 from event import Event
 from dao import EventDAO
 
-class TestApp(unittest.TestCase):
 
+class TestApp(unittest.TestCase):
     def setUp(self):
         self.app = app.test_client()
 
@@ -44,9 +44,9 @@ class TestApp(unittest.TestCase):
     def test_input_add_parameters(self):
         input = "/add clean 86400 21:00"
         output_options = command_parser(input)
-        self.assertEqual(output_options, {"name": "clean", 
-                                            "interval": "86400", 
-                                            "alarm_time": "21:00"})
+        self.assertEqual(output_options, {"name": "clean",
+                                          "interval": "86400",
+                                          "alarm_time": "21:00"})
 
     def test_input_remove_parameters(self):
         input = "/remove clean"
@@ -66,8 +66,8 @@ class TestApp(unittest.TestCase):
     @patch('dao.EventDAO')
     def test_EventBO_handle_add_command_with_alarm_time(self, MockEventDAO):
         options = {"name": "test_event",
-                    "interval": 86400,
-                    "alarm_time": "21:00"}
+                   "interval": 86400,
+                   "alarm_time": "21:00"}
         user = "test_user"
 
         MockEventDAO.has_event.return_value = False
@@ -80,7 +80,7 @@ class TestApp(unittest.TestCase):
     @patch('dao.EventDAO')
     def test_EventBO_handle_add_command_without_alarm_time(self, MockEventDAO):
         options = {"name": "test_event",
-                    "interval": 86400}
+                   "interval": 86400}
         user = "test_user"
 
         MockEventDAO.has_event.return_value = False
@@ -96,11 +96,11 @@ class TestApp(unittest.TestCase):
         user = "test_user"
 
         MockEventDAO.query_event_by_target_and_name.return_value = \
-            {"target": "test target", 
-             "name": "test event", 
+            {"target": "test target",
+             "name": "test event",
              "last_notified_time": 0}
         MockEventDAO.reset_event.return_value = True
-        
+
         bo = EventBO(MockEventDAO)
 
         result = bo.handle_reset_command(user, options)
@@ -124,10 +124,10 @@ class TestApp(unittest.TestCase):
         user = "test_user"
 
         MockEventDAO.query_events_by_target.return_value = [
-                {"last_notified_time": 1484123123, 
-                    "name": "test_target", 
-                    "interval": 86400}
-            ]
+            {"last_notified_time": 1484123123,
+             "name": "test_target",
+             "interval": 86400}
+        ]
         bo = EventBO(MockEventDAO, MockMessageApi)
         bo.handle_list_command(user, options)
 
@@ -135,12 +135,12 @@ class TestApp(unittest.TestCase):
     @patch('message.MessageApi')
     def test_EventBO_send_notification_should_send(self, MockEventDAO, MockMessageApi):
         MockEventDAO.query_all_events.return_value = [
-                {"last_notified_time": 0, 
-                    "name": "test_target", 
-                    "interval": 100,
-                    "created_time": 10000,
-                    "target": "test_target"}
-            ]
+            {"last_notified_time": 0,
+             "name": "test_target",
+             "interval": 100,
+             "created_time": 10000,
+             "target": "test_target"}
+        ]
         bo = EventBO(MockEventDAO, MockMessageApi)
         bo.send_notification(current_time=10100)
 
@@ -151,12 +151,12 @@ class TestApp(unittest.TestCase):
     @patch('message.MessageApi')
     def test_EventBO_send_notification_should_not_send(self, MockEventDAO, MockMessageApi):
         MockEventDAO.query_all_events.return_value = [
-                {"last_notified_time": 0, 
-                    "name": "test_target", 
-                    "interval": 100,
-                    "created_time": 10000,
-                    "target": "test_target"}
-            ]
+            {"last_notified_time": 0,
+             "name": "test_target",
+             "interval": 100,
+             "created_time": 10000,
+             "target": "test_target"}
+        ]
         bo = EventBO(MockEventDAO, MockMessageApi)
         bo.send_notification(current_time=10001)
 
@@ -184,7 +184,6 @@ class TestApp(unittest.TestCase):
         bo = EventBO(MockEventDAO, MockMessageApi)
         output = bo.compose_alert_message(name, time_diff, interval)
         self.assertEqual(output, "離上一次\"test_event\"已經2小時了！")
-
 
     @patch('dao.EventDAO')
     @patch('message.MessageApi')
@@ -238,6 +237,7 @@ class TestApp(unittest.TestCase):
         dao = EventDAO(MockDB)
 
         self.assertTrue(dao.remove_event(Event("test target", "test event")))
+
 
 if __name__ == '__main__':
     unittest.main()

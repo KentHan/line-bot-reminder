@@ -2,7 +2,8 @@
 
 import os
 import sys
-reload(sys)     
+
+reload(sys)
 sys.setdefaultencoding("utf-8")
 
 from flask import Flask, render_template, request, redirect, url_for
@@ -42,6 +43,7 @@ MESSAGE_HELP = """
 
 MESSAGE_ERROR = "我看不懂，試試看輸入 /help"
 MESSAGE_OK = "OK!"
+
 
 ###
 # Routing for your application.
@@ -114,15 +116,17 @@ def callback():
 
     return 'OK~~'
 
+
 @app.route("/api/list_event", methods=['GET'])
 def list_event():
     bo = EventBO()
     bo.handle_list_command(user_id)
 
+
 def handle_message(event):
     user_id = event.source.sender_id
     source_type = event.source.type
-    
+
     print(user_id)
     text = event.message.text
     bo = EventBO()
@@ -153,6 +157,7 @@ def handle_message(event):
         else:
             send_text_message(user_id, MESSAGE_ERROR)
 
+
 def command_parser(input):
     input = input.strip()
     options_start_index = input.find(" ") + 1
@@ -163,6 +168,7 @@ def command_parser(input):
         keys = ["name", "interval", "alarm_time"]
         values = options_string.split(" ")
         return dict(zip(keys, values))
+
 
 if __name__ == '__main__':
     app.run(debug=True)
