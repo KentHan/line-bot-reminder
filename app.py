@@ -142,7 +142,7 @@ def handle_message(event):
     elif text.startswith("/help"):
         send_text_message(user_id, MESSAGE_HELP)
     elif text.startswith("/test"):
-        send_reset_confirm_message(user_id, "test_event")
+        send_reset_confirm_message(user_id, "test_event_desc")
     elif text.startswith("/do_nothing"):
         pass
     else:
