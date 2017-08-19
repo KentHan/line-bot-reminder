@@ -74,7 +74,13 @@ class EventBO:
                 self.message_api.send_reset_confirm_message(target_id, name, event_desc)
                 self.dao.update_last_notified_time(target_id, name, last_notified_time + interval)
 
-    def compose_alert_message(self, name, time_diff, interval):
+    def compose_alert_message(self, name, time_diff_in_second, interval):
+        times, counter = self.calculate_diff_interval(time_diff_in_second, interval)
+        times_string = "%d%s" % (times, counter)
+        output = "離上一次\"%s\"已經%s了！" % (name, times_string)
+        return output
+
+    def calculate_diff_interval(self, time_diff_in_second, interval):
         if interval < 3600:
             counter = "分鐘"
             scale = 60
@@ -85,10 +91,8 @@ class EventBO:
             counter = "天"
             scale = 86400
 
-        times = time_diff / scale
-        times_string = "%d%s" % (times, counter)
-        output = "離上一次\"%s\"已經%s了！" % (name, times_string)
-        return output
+        times = time_diff_in_second / scale
+        return times, counter
 
     def compose_event_list_message(self, events):
         output = ""
