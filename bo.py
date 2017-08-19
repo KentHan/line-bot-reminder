@@ -100,7 +100,7 @@ class EventBO:
         for event in events:
             time_diff = current_time - event["created_time"]
             times, counter = self.calculate_diff_interval(time_diff, event["interval"])
-            line = "%s： %d%s前" % (event["name"], times, counter)
+            line = "%s： %d %s前" % (event["name"], times, counter)
             output += line + "\n"
         return output
 
