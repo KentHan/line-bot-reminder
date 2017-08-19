@@ -124,9 +124,11 @@ class TestApp(unittest.TestCase):
         user = "test_user"
 
         MockEventDAO.query_events_by_target.return_value = [
-            {"last_notified_time": 1484123123,
-             "name": "test_target",
-             "interval": 86400}
+            {
+                "created_time": 1503061200,
+                "last_notified_time": 1484123123,
+                "name": "test_target",
+                "interval": 86400}
         ]
         bo = EventBO(MockEventDAO, MockMessageApi)
         bo.handle_list_command(user, options)
