@@ -96,12 +96,11 @@ class EventBO:
 
     def compose_event_list_message(self, events):
         output = ""
+        current_time=int(time())
         for event in events:
-            if "last_notified_time" in event and event["last_notified_time"] != 0:
-                line = "%s: %d (%s)" % (event["name"], event["interval"],
-                                        self.parse_timestamp_to_local_time(event["last_notified_time"]))
-            else:
-                line = "%s: %d" % (event["name"], event["interval"])
+            time_diff = current_time - event["created_time"]
+            times, counter = self.calculate_diff_interval(time_diff, event["interval"])
+            line = "%s: %d %d%s前" % (event["name"], event["interval"], times, counter)
             output += line + "\n"
         return output
 
