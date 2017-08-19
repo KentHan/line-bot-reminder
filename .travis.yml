@@ -5,7 +5,7 @@ install:
   - pip install -r requirements.txt
   - pip install coveralls
 script:
-  coverage run --source=./ --omit="templates/*" test.py
+  coverage run --source=./ --omit="templates/*" --branch test.py
 after_success:
   coveralls
 deploy:
