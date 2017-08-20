@@ -4,7 +4,10 @@ from time import time
 
 
 class Event:
-    def __init__(self, target, name, created_time=0, interval=0, alarm_time="21:00", last_notified_time=0):
+
+    DEFAULT_ALARM_TIME = "21:00"
+
+    def __init__(self, target, name, created_time=0, interval=0, alarm_time=DEFAULT_ALARM_TIME, last_notified_time=0):
         self.target = target
         self.name = name
         self.created_time = created_time

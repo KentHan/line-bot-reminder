@@ -50,7 +50,7 @@ class EventBO:
         event = self.dao.query_event_by_target_and_name(user, options["name"])
 
         if not 'alarm_time' in event:
-            event['alarm_time'] = '21:00'
+            event['alarm_time'] = Event.DEFAULT_ALARM_TIME
 
         return self.dao.reset_event(event)
 

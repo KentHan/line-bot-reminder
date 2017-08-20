@@ -42,11 +42,11 @@ class TestApp(unittest.TestCase):
         rv.close()
 
     def test_input_add_parameters(self):
-        input = "/add clean 86400 21:00"
+        input = "/add clean 86400 %s" % (Event.DEFAULT_ALARM_TIME)
         output_options = command_parser(input)
         self.assertEqual(output_options, {"name": "clean",
                                           "interval": "86400",
-                                          "alarm_time": "21:00"})
+                                          "alarm_time": Event.DEFAULT_ALARM_TIME})
 
     def test_input_remove_parameters(self):
         input = "/remove clean"
@@ -67,7 +67,7 @@ class TestApp(unittest.TestCase):
     def test_EventBO_handle_add_command_with_alarm_time(self, MockEventDAO):
         options = {"name": "test_event",
                    "interval": 86400,
-                   "alarm_time": "21:00"}
+                   "alarm_time": Event.DEFAULT_ALARM_TIME}
         user = "test_user"
 
         MockEventDAO.has_event.return_value = False
@@ -81,7 +81,7 @@ class TestApp(unittest.TestCase):
     def test_EventBO_handle_add_command_without_alarm_time(self, MockEventDAO):
         options = {"name": "test_event",
                    "interval": 86400,
-                   "alarm_time": "21:00"}
+                   "alarm_time": Event.DEFAULT_ALARM_TIME}
         user = "test_user"
 
         MockEventDAO.has_event.return_value = False
@@ -218,7 +218,8 @@ class TestApp(unittest.TestCase):
         MockDB.user_data.event.update_one.acknowledged.return_value = True
         dao = EventDAO(MockDB)
 
-        self.assertTrue(dao.reset_event({"target": "test target", "name": "test event", "last_notified_time": 0, "alarm_time": "21:00"}))
+        self.assertTrue(dao.reset_event({"target": "test target", \
+            "name": "test event", "last_notified_time": 0, "alarm_time": Event.DEFAULT_ALARM_TIME}))
 
     @patch("pymongo.MongoClient")
     def test_EventDAO_has_event(self, MockDB):
