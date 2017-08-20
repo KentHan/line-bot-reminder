@@ -80,7 +80,8 @@ class TestApp(unittest.TestCase):
     @patch('dao.EventDAO')
     def test_EventBO_handle_add_command_without_alarm_time(self, MockEventDAO):
         options = {"name": "test_event",
-                   "interval": 86400}
+                   "interval": 86400,
+                   "alarm_time": "21:00"}
         user = "test_user"
 
         MockEventDAO.has_event.return_value = False
@@ -217,7 +218,7 @@ class TestApp(unittest.TestCase):
         MockDB.user_data.event.update_one.acknowledged.return_value = True
         dao = EventDAO(MockDB)
 
-        self.assertTrue(dao.reset_event({"target": "test target", "name": "test event", "last_notified_time": 0}))
+        self.assertTrue(dao.reset_event({"target": "test target", "name": "test event", "last_notified_time": 0, "alarm_time": "21:00"}))
 
     @patch("pymongo.MongoClient")
     def test_EventDAO_has_event(self, MockDB):

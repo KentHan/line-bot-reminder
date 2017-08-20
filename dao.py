@@ -7,6 +7,7 @@ from time import time
 from pymongo import MongoClient
 
 from event import Event
+from util import Util
 
 mongodb_id = os.getenv("MONGODB_ID")
 mongodb_pw = os.getenv("MONGODB_PW")
@@ -81,6 +82,7 @@ class EventDAO:
         return result.acknowledged
 
     def reset_event(self, event):
+        assigned_time = Util.parse_local_time_to_timestamp(event['alarm_time'])
         result = self.db.event.update_one(
             {
                 "target": event["target"],
@@ -88,9 +90,8 @@ class EventDAO:
             },
             {
                 "$set": {
-                    'last_notified_time': 0,
-                    'created_time': event["last_notified_time"] if "last_notified_time" in event \
-                        else event["created_time"]
+                    'last_notified_time': assigned_time,
+                    'created_time': assigned_time
                 }
             }
         )

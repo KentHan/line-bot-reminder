@@ -35,7 +35,7 @@ class EventBO:
         else:
             created_time = int(time())
 
-        event = Event(user, options["name"], created_time, int(options["interval"]))
+        event = Event(user, options["name"], created_time, int(options["interval"]), options['alarm_time'])
         if self.dao.has_event(event):
             pass
         else:
@@ -49,6 +49,10 @@ class EventBO:
     def handle_reset_command(self, user, options):
         print("options: ", options)
         event = self.dao.query_event_by_target_and_name(user, options["name"])
+
+        if not 'alarm_time' in event:
+            event['alarm_time'] = '21:00'
+
         return self.dao.reset_event(event)
 
     def handle_list_command(self, target_id, options=None):
@@ -66,8 +70,8 @@ class EventBO:
             created_time = event['created_time']
             interval = event['interval']
             name = event['name']
-            last_notified_time = event['last_notified_time'] if 'last_notified_time' in event and event[
-                                                                                                      'last_notified_time'] != 0 else created_time
+            last_notified_time = event['last_notified_time'] \
+                if 'last_notified_time' in event else created_time
 
             if current_time - last_notified_time >= interval:
                 time_diff = current_time - created_time
@@ -107,3 +111,4 @@ class EventBO:
 
     def parse_timestamp_to_local_time(self, timestamp):
         return datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S')
+
