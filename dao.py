@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 
-
 import os
-from time import time
 
 from pymongo import MongoClient
 
