@@ -11,6 +11,7 @@ sys.setdefaultencoding("utf-8")
 from dao import EventDAO
 from event import Event
 from message import MessageApi
+from util import Util
 
 
 class EventBO:
@@ -30,7 +31,7 @@ class EventBO:
         print(options)
 
         if "alarm_time" in options:
-            created_time = self.parse_local_time_to_timestamp(options["alarm_time"])
+            created_time = Util.parse_local_time_to_timestamp(options["alarm_time"])
         else:
             created_time = int(time())
 
@@ -103,13 +104,6 @@ class EventBO:
             line = "%s： %d %s前" % (event["name"], times, counter)
             output += line + "\n"
         return output
-
-    def parse_local_time_to_timestamp(self, inputted_hour_and_minute):
-        today = datetime.fromtimestamp(int(time())).strftime('%Y-%m-%d')
-        composed_datetime_string = "%s %s" % (today, inputted_hour_and_minute)
-
-        assigned_timestamp = int(mktime(datetime.strptime(composed_datetime_string, "%Y-%m-%d %H:%M").timetuple()))
-        return assigned_timestamp
 
     def parse_timestamp_to_local_time(self, timestamp):
         return datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S')
