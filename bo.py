@@ -12,6 +12,8 @@ from event import Event
 from message import MessageApi
 from util import Util
 
+SECONDS_A_DAY = 86400
+
 
 class EventBO:
     def __init__(self, dao=None, message_api=None):
@@ -34,7 +36,7 @@ class EventBO:
         else:
             created_time = int(time())
 
-        event = Event(user, options["name"], created_time, int(options["interval"]), options['alarm_time'])
+        event = Event(user, options["name"], created_time, int(options["interval"]) * SECONDS_A_DAY, options['alarm_time'])
         if self.dao.has_event(event):
             pass
         else:

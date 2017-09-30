@@ -28,8 +28,8 @@ channel_access_token = os.getenv('LINE_CHANNEL_ACCESS_TOKEN')
 
 MESSAGE_HELP = """
 * 加入事件
-/add <事件名> <提醒間隔(秒)> <指定時間>
-例如：/add 洗衣服 86400 20:00
+/add <事件名> <提醒間隔(天)> <指定時間>
+例如：/add 洗衣服 1 20:00
     
 * 重置提醒
 /reset <事件名>
