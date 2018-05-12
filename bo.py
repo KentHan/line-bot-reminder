@@ -60,7 +60,14 @@ class EventBO:
         print("options:", options)
         events = self.dao.query_events_by_target(target_id)
         if len(events) > 0:
-            self.message_api.send_text_message(target_id, self.compose_event_list_message(events))
+            for event in events:
+                created_time = event['created_time']
+                interval = event['interval']
+                name = event['name']
+                current_time = int(time())
+                time_diff = current_time - created_time
+                event_desc = self.compose_alert_message(name, time_diff, interval)
+                self.message_api.send_reset_confirm_message(target_id, name, event_desc)
         else:
             self.message_api.send_text_message(target_id, "No event!")
 
