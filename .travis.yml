@@ -16,3 +16,22 @@ deploy:
   on:
     repo: KentHan/line-bot-reminder
     branch: master
+
+env:
+  global:
+   # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
+   #   via the "travis encrypt" command using the project repo's public key
+   - secure: "YfDIDSja03wfEjMM4l+RSaKwYaPVhEm6TeLlAx6LoslPU0iRTJbNxWgFgxD/3FjYcXiVPufeXLy494KyS1oiIZnn39A/u0DGo4o0fnxMnA+bvp+MlxeKRvUpX5Vu/e32SZMEiyod3lQUHewd6zwEOuMYuh7C7Tij6Z2tiRGf6lHI55tn3aP/vHtjoCipBOTR7wihC28Lbb2e/6IRmeOfjHyJfohm0J65IIWJJ2SWgoFdPAe+1/jqU8wo6l0jIGqZzf0EAPxSc0HO+yVJVATjQMB7Zy7haNC0cTNtUT8kTHtoImZLMaBLVVcpCyaH6sEgTnbX40vkA6+KLed9Jte4gja4m/tqeKPk/zCNJfIKvckwAigZPEjK8mgHwZe5gSMgnf5d/Bfw7+RjgRht5w7rYP3cxTEUQNbsG/hHvifdJ4Q7TLXmnGyJ0jj8Dc5YoS+2mgFO6ggw/t8Epcm66xm0u7gy6tYsQFgh20RPHTXuz1V3gqKAbjmuw3m8KMpfGNQ1WwHGnGDAwV7c74NDGBEdlokCVlGRuggB8AajZ3+0qy7Li+zw5xhp/lgvfBgMV6DqbY4dGHQS8ZBWsk6sLNKDFaWPAX4xJy3Q5rxcMrtTbL4yY9WewUeJWPZf+QS7am9ZelqRpQ3TXBVDiddKnDJZTbB6SDivAQXRMl5o5AklcGA="
+
+before_install:
+  - echo -n | openssl s_client -connect https://scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
+
+addons:
+  coverity_scan:
+    project:
+      name: "KentHan/line-bot-reminder"
+      description: "<Your project description here>"
+    notification_email: kenthan.tw@gmail.com
+    build_command_prepend: "<Your build preprocessing command here>"
+    build_command: "<Your build command here>"
+    branch_pattern: coverity_scan
