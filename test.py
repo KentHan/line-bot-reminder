@@ -29,7 +29,7 @@ class TestApp(unittest.TestCase):
 
     def test_default_redirecting(self):
         rv = self.app.get('/about')
-        self.assertEqual(rv.status_code, 301)
+        self.assertEqual(rv.status_code, 308)
 
     def test_404_page(self):
         rv = self.app.get('/i-am-not-found/')
