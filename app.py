@@ -162,7 +162,7 @@ def handle_message(event):
         matched_license = parse_car_license(text)
         if matched_license in license_dict:
             line_id = license_dict[matched_license]
-            output_text = "車牌 {}，{} 被抓到了！".format(matched_license, line_id)
+            output_text = "{} (抓)".format(line_id)
             send_text_message(user_id, output_text)
 
     else:
