@@ -2,6 +2,8 @@
 
 import os
 import sys
+import csv
+import re
 
 reload(sys)
 sys.setdefaultencoding("utf-8")
@@ -44,6 +46,10 @@ MESSAGE_HELP = """
 MESSAGE_ERROR = "我看不懂，試試看輸入 /help"
 MESSAGE_OK = "OK!"
 
+with open('car_licenses.csv') as csvfile:
+    rows = csv.reader(csvfile)
+    next(rows)
+    license_dict = {row[0].upper(): row[1] for row in rows}
 
 ###
 # Routing for your application.
@@ -122,6 +128,13 @@ def list_event():
     bo = EventBO()
     bo.handle_list_command(user_id)
 
+def parse_car_license(text):
+    regex = re.compile(r'[a-zA-Z]{3}-[\d]{4}')
+    match = regex.search(input)
+    if match is not None:
+        matched_license = match.group(0).upper()
+    else:
+        return None
 
 def handle_message(event):
     user_id = event.source.sender_id
@@ -145,6 +158,13 @@ def handle_message(event):
         send_reset_confirm_message(user_id, "test_event_desc")
     elif text.startswith("/do_nothing"):
         pass
+    elif parse_car_license(text) is not None:
+        matched_license = parse_car_license(text)
+        if matched_license in license_dict:
+            line_id = license_dict[matched_license]
+            output_text = "車牌 {}，{} 被抓到了！".format(matched_license, line_id)
+            send_text_message(user_id, output_text)
+
     else:
         if source_type == "user":
             send_text_message(user_id, MESSAGE_ERROR)
