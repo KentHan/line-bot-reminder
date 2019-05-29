@@ -29,6 +29,10 @@ def send_text_message(user_id, text):
     message = TextMessage("1", text)
     line_bot_api.push_message(user_id, message)
 
+def send_sticker(user_id, package_id, sticker_id):
+    line_bot_api = LineBotApi(channel_access_token)
+    message = StickerMessage("1", package_id, sticker_id)
+    line_bot_api.push_message(user_id, message)
 
 def send_reset_confirm_message(user_id, event_name, event_desc):
     message = TemplateSendMessage(
