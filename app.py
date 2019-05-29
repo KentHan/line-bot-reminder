@@ -164,6 +164,7 @@ def handle_message(event):
             line_id = license_dict[matched_license]
             output_text = "{} (抓)".format(line_id)
             send_text_message(user_id, output_text)
+            send_sticker(user_id, "11538", "51626512")
 
     else:
         if source_type == "user":
