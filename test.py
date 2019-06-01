@@ -27,10 +27,6 @@ class TestApp(unittest.TestCase):
         self.assertTrue(rv.data)
         self.assertEqual(rv.status_code, 200)
 
-    def test_default_redirecting(self):
-        rv = self.app.get('/about')
-        self.assertEqual(rv.status_code, 301)
-
     def test_404_page(self):
         rv = self.app.get('/i-am-not-found/')
         self.assertEqual(rv.status_code, 404)
