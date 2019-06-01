@@ -11,7 +11,7 @@ after_success:
 deploy:
   provider: heroku
   api_key:
-    secure: f7a3f16c-2239-4aba-bb83-513814ed661e
+    secure: Wl8o2+7pMYLIs8V/q5g4Ido2zWq4pxk+az1Aey+2T677XPCAU+9Y3oHoQl54C+f9aQhx7mkr5AFjlEvBIp2WvreWPrE5fpGpTwVJBeTMCzA95jFgjwkuB9TQ7uloUsPmHUkBzWMlN+riLOZSxL183ZcvnC078kI4N1haMqS9RhQfTpkv2fKHKjf7/30gLNBteiUO0NaoVBmAAN72/O0xZCYPFVYPvNmh6rnXbdWRImlhHzTpnProyxM+RwREtrsz0X0WV1HHmah7NNY5Z51vLW0yOp5stkIoYKRophgqCXO0PfhE3w8ET3qDHynDz8n/QmKJKi05K+sJuykMmBgRehT2l9ZrF6qRKXNkRbDIFCGkrm7ubnVs58Rnuw9+uEZU9F1YLPmL/rW7BuSKcNED1JRH7Gi5TRdnN8dHGjklYCMNxJFuxDRzYZk0xRC0nCcoF0v0TIzsfMm6ltrfx6XlgTkRF1EeLH8PiI8LpYqqBYaYdw85+Smz8rSS5viKg4CWVn7n4mKjg2djUHtJscggtX49fUJbRwSBtbMOD+PZg82K4xz631eeojdtwxyabwnzMWiGmhdZucTsGpfyYEwsh4jO1I++NqY9FSkJBOHjAcThAEnRg5IybDGtHf87bwD+Q5ak/ozwUeUUjQvh+zWCLsN7fHs/P74kyWS18GNG+7M=
   app: line-bot-reminder
   on:
     repo: KentHan/line-bot-reminder
