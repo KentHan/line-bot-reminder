@@ -27,7 +27,7 @@ class MessageApi():
 def send_text_message(user_id, text):
     line_bot_api = LineBotApi(channel_access_token)
     message = TextMessage("1", text)
-    line_bot_api.push_message(user_id, message)
+    line_bot_api.reply_message(user_id, message)
 
 
 def send_reset_confirm_message(user_id, event_name, event_desc):
@@ -48,4 +48,4 @@ def send_reset_confirm_message(user_id, event_name, event_desc):
         )
     )
     line_bot_api = LineBotApi(channel_access_token)
-    line_bot_api.push_message(user_id, message)
+    line_bot_api.reply_message(user_id, message)
