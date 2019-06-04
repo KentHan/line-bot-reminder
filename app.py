@@ -19,7 +19,7 @@ from linebot.models import (
 )
 
 from bo import EventBO
-from message import send_text_message, send_reset_confirm_message, MessageApi
+from message import reply_text_message, push_reset_confirm_message, MessageApi
 
 app = Flask(__name__)
 
@@ -129,7 +129,7 @@ def handle_message(event):
     reply_token = event.reply_token
     text = event.message.text
 
-    message_api = MessageApi(reply_token)
+    message_api = MessageApi(user_id, reply_token)
     bo = EventBO()
     bo.set_message_api(message_api)
 
@@ -149,15 +149,15 @@ def handle_message(event):
         pass
     else:
         if source_type == "user":
-            send_text_message(reply_token, MESSAGE_ERROR)
+            reply_text_message(reply_token, MESSAGE_ERROR)
         else:
             return
 
     if "result" in locals():
         if result:
-            send_text_message(reply_token, MESSAGE_OK)
+            reply_text_message(reply_token, MESSAGE_OK)
         else:
-            send_text_message(reply_token, MESSAGE_ERROR)
+            reply_text_message(reply_token, MESSAGE_ERROR)
 
 
 def command_parser(input):

@@ -70,9 +70,9 @@ class EventBO:
                 current_time = int(time())
                 time_diff = current_time - created_time
                 event_desc = self.compose_alert_message(name, time_diff, interval)
-                self.message_api.send_reset_confirm_message(name, event_desc)
+                self.message_api.push_reset_confirm_message(name, event_desc)
         else:
-            self.message_api.send_text_message("No event!")
+            self.message_api.reply_text_message("No event!")
 
     def send_notification(self, current_time=int(time())):
         events = self.dao.query_all_events()
@@ -87,7 +87,7 @@ class EventBO:
             if current_time - last_notified_time >= interval:
                 time_diff = current_time - created_time
                 event_desc = self.compose_alert_message(name, time_diff, interval)
-                self.message_api.send_reset_confirm_message(name, event_desc)
+                self.message_api.push_reset_confirm_message(name, event_desc)
                 self.dao.update_last_notified_time(target_id, name, last_notified_time + interval)
 
     def compose_alert_message(self, name, time_diff_in_second, interval):

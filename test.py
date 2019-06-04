@@ -142,7 +142,7 @@ class TestApp(unittest.TestCase):
         bo = EventBO(MockEventDAO, MockMessageApi)
         bo.send_notification(current_time=10101)
 
-        MockMessageApi.send_reset_confirm_message.assert_called_once()
+        MockMessageApi.push_reset_confirm_message.assert_called_once()
         MockEventDAO.update_last_notified_time.assert_called_once()
 
     @patch('dao.EventDAO')
@@ -157,7 +157,7 @@ class TestApp(unittest.TestCase):
         bo = EventBO(MockEventDAO, MockMessageApi)
         bo.send_notification(current_time=10001)
 
-        MockMessageApi.send_reset_confirm_message.assert_not_called()
+        MockMessageApi.push_reset_confirm_message.assert_not_called()
         MockEventDAO.update_last_notified_time.assert_not_called()
 
     @patch('dao.EventDAO')
