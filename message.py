@@ -17,20 +17,24 @@ channel_access_token = os.getenv('LINE_CHANNEL_ACCESS_TOKEN')
 
 
 class MessageApi():
-    def send_text_message(self, user_id, text):
-        send_text_message(user_id, text)
 
-    def send_reset_confirm_message(self, user_id, event_name, event_desc):
-        send_reset_confirm_message(user_id, event_name, event_desc)
+    def __init__(self, reply_token=None):
+        self.reply_token = reply_token
+
+    def send_text_message(self, text):
+        send_text_message(self.reply_token, text)
+
+    def send_reset_confirm_message(self, event_name, event_desc):
+        send_reset_confirm_message(self.reply_token, event_name, event_desc)
 
 
-def send_text_message(user_id, text):
+def send_text_message(reply_token, text):
     line_bot_api = LineBotApi(channel_access_token)
     message = TextMessage("1", text)
-    line_bot_api.reply_message(user_id, message)
+    line_bot_api.reply_message(reply_token, message)
 
 
-def send_reset_confirm_message(user_id, event_name, event_desc):
+def send_reset_confirm_message(reply_token, event_name, event_desc):
     message = TemplateSendMessage(
         alt_text="Confirm Reset",
         template=ConfirmTemplate(
@@ -48,4 +52,4 @@ def send_reset_confirm_message(user_id, event_name, event_desc):
         )
     )
     line_bot_api = LineBotApi(channel_access_token)
-    line_bot_api.reply_message(user_id, message)
+    line_bot_api.reply_message(reply_token, message)

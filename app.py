@@ -19,7 +19,7 @@ from linebot.models import (
 )
 
 from bo import EventBO
-from message import send_text_message, send_reset_confirm_message
+from message import send_text_message, send_reset_confirm_message, MessageApi
 
 app = Flask(__name__)
 
@@ -124,13 +124,14 @@ def list_event():
 
 
 def handle_message(event):
-    reply_token = event.reply_token
-    user_id = reply_token # event.source.sender_id
+    user_id = event.source.sender_id
     source_type = event.source.type
-
-    print(user_id)
+    reply_token = event.reply_token
     text = event.message.text
+
+    message_api = MessageApi(reply_token)
     bo = EventBO()
+    bo.set_message_api(message_api)
 
     if text.startswith("/add"):
         result = bo.handle_add_command(user_id, command_parser(text))
@@ -141,22 +142,22 @@ def handle_message(event):
     elif text.startswith("/list"):
         bo.handle_list_command(user_id, command_parser(text))
     elif text.startswith("/help"):
-        send_text_message(user_id, MESSAGE_HELP)
+        send_text_message(reply_token, MESSAGE_HELP)
     elif text.startswith("/test"):
-        send_reset_confirm_message(user_id, "test_event_desc")
+        send_reset_confirm_message(reply_token, "test_event_desc")
     elif text.startswith("/do_nothing"):
         pass
     else:
         if source_type == "user":
-            send_text_message(user_id, MESSAGE_ERROR)
+            send_text_message(reply_token, MESSAGE_ERROR)
         else:
             return
 
     if "result" in locals():
         if result:
-            send_text_message(user_id, MESSAGE_OK)
+            send_text_message(reply_token, MESSAGE_OK)
         else:
-            send_text_message(user_id, MESSAGE_ERROR)
+            send_text_message(reply_token, MESSAGE_ERROR)
 
 
 def command_parser(input):
