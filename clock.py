@@ -5,7 +5,7 @@ import logging
 
 from apscheduler.schedulers.blocking import BlockingScheduler
 
-from message import send_text_message
+from message import push_text_message
 from bo import EventBO
 
 bo = EventBO()

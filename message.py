@@ -34,6 +34,10 @@ def reply_text_message(reply_token, text):
     message = TextMessage("1", text)
     line_bot_api.reply_message(reply_token, message)
 
+def push_text_message(target_id, text):
+    line_bot_api = LineBotApi(channel_access_token)
+    message = TextMessage("1", text)
+    line_bot_api.push_message(target_id, message)
 
 def push_reset_confirm_message(target_id, event_name, event_desc):
     message = TemplateSendMessage(
