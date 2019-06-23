@@ -87,6 +87,7 @@ class EventBO:
             if current_time - last_notified_time >= interval:
                 time_diff = current_time - created_time
                 event_desc = self.compose_alert_message(name, time_diff, interval)
+                self.message_api.set_user_id(target_id)
                 self.message_api.push_reset_confirm_message(name, event_desc)
                 self.dao.update_last_notified_time(target_id, name, last_notified_time + interval)
 

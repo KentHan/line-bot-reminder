@@ -22,6 +22,9 @@ class MessageApi():
         self.user_id = user_id
         self.reply_token = reply_token
 
+    def set_user_id(self, user_id):
+        self.user_id = user_id
+
     def reply_text_message(self, text):
         reply_text_message(self.reply_token, text)
 
