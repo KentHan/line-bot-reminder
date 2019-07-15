@@ -93,7 +93,7 @@ class EventBO:
 
     def compose_alert_message(self, name, time_diff_in_second, interval):
         number, unit = Util.calculate_diff_interval(time_diff_in_second, interval)
-        output = "離上一次\"%s\"已經%d%s了！" % (name, number, unit)
+        output = Util.compose_how_long_from_last_time_string(name, number, unit)
         return output
 
     def compose_event_list_message(self, events):

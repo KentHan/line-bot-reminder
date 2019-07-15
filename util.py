@@ -33,3 +33,7 @@ class Util(object):
     @staticmethod
     def parse_timestamp_to_local_time(timestamp):
         return datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S')
+
+    @staticmethod
+    def compose_how_long_from_last_time_string(name, number, unit):
+        return "離上一次\"%s\"已經%d%s了！" % (name, number, unit)
