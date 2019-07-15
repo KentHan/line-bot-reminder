@@ -169,7 +169,7 @@ class TestApp(unittest.TestCase):
 
         bo = EventBO(MockEventDAO, MockMessageApi)
         output = bo.compose_alert_message(name, time_diff, interval)
-        self.assertEqual(output, "離上一次\"test_event\"已經2分鐘了！")
+        self.assertEqual("離上一次\"test_event\"已經2分鐘了！", output)
 
     @patch('dao.EventDAO')
     @patch('message.MessageApi')
@@ -180,7 +180,7 @@ class TestApp(unittest.TestCase):
 
         bo = EventBO(MockEventDAO, MockMessageApi)
         output = bo.compose_alert_message(name, time_diff, interval)
-        self.assertEqual(output, "離上一次\"test_event\"已經2小時了！")
+        self.assertEqual("離上一次\"test_event\"已經2小時了！", output)
 
     @patch('dao.EventDAO')
     @patch('message.MessageApi')
@@ -191,7 +191,7 @@ class TestApp(unittest.TestCase):
 
         bo = EventBO(MockEventDAO, MockMessageApi)
         output = bo.compose_alert_message(name, time_diff, interval)
-        self.assertEqual(output, "離上一次\"test_event\"已經2天了！")
+        self.assertEqual("離上一次\"test_event\"已經2天了！", output)
 
     @patch("pymongo.MongoClient")
     def test_EventDAO_add_user_and_event(self, MockDB):
