@@ -26,6 +26,7 @@ class Util(object):
             scale = 86400
 
         times = time_diff_in_second / scale
+        times = 0 if times < 0 else times
         return times, counter
 
     @staticmethod
