@@ -31,5 +31,5 @@ class Util(object):
         return times, counter
 
     @staticmethod
-    def parse_timestamp_to_local_time(self, timestamp):
+    def parse_timestamp_to_local_time(timestamp):
         return datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S')
