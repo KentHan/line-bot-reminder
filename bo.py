@@ -92,9 +92,8 @@ class EventBO:
                 self.dao.update_last_notified_time(target_id, name, last_notified_time + interval)
 
     def compose_alert_message(self, name, time_diff_in_second, interval):
-        times, counter = Util.calculate_diff_interval(time_diff_in_second, interval)
-        times_string = "%d%s" % (times, counter)
-        output = "離上一次\"%s\"已經%s了！" % (name, times_string)
+        number, unit = Util.calculate_diff_interval(time_diff_in_second, interval)
+        output = "離上一次\"%s\"已經%d%s了！" % (name, number, unit)
         return output
 
     def compose_event_list_message(self, events):
@@ -102,7 +101,7 @@ class EventBO:
         current_time=int(time())
         for event in events:
             time_diff = current_time - event["created_time"]
-            times, counter = Util.calculate_diff_interval(time_diff, event["interval"])
-            line = "%s： %d %s前" % (event["name"], times, counter)
+            number, unit = Util.calculate_diff_interval(time_diff, event["interval"])
+            line = "%s： %d %s前" % (event["name"], number, unit)
             output += line + "\n"
         return output
