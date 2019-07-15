@@ -15,15 +15,16 @@ class Util(object):
 
     @staticmethod
     def calculate_diff_interval(time_diff_in_second, interval):
-        if interval < 3600:
+        one_minute, one_hour, one_day = 60, 3600, 86400
+        if interval < one_hour:
             counter = "分鐘"
-            scale = 60
-        elif interval < 86400:
+            scale = one_minute
+        elif interval < one_day:
             counter = "小時"
-            scale = 3600
+            scale = one_hour
         else:
             counter = "天"
-            scale = 86400
+            scale = one_day
 
         times = time_diff_in_second / scale
         times = 0 if times < 0 else times
