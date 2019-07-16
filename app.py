@@ -3,9 +3,6 @@
 import os
 import sys
 
-reload(sys)
-sys.setdefaultencoding("utf-8")
-
 from flask import Flask, render_template, request, redirect, url_for
 
 from linebot import (
