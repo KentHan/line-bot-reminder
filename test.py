@@ -2,15 +2,14 @@
 # -*- coding: utf-8 -*-
 
 import unittest
-from mock import patch
 
-# from pymongo import MongoClient
+from mock import patch
 
 from app import app
 from app import command_parser
 from bo import EventBO
-from event import Event
 from dao import EventDAO
+from event import Event
 from util import Util
 
 
@@ -214,7 +213,8 @@ class TestApp(unittest.TestCase):
         dao = EventDAO(MockDB)
 
         self.assertTrue(dao.reset_event({"target": "test target", \
-            "name": "test event", "last_notified_time": 0, "alarm_time": Event.DEFAULT_ALARM_TIME}))
+                                         "name": "test event", "last_notified_time": 0,
+                                         "alarm_time": Event.DEFAULT_ALARM_TIME}))
 
     @patch("pymongo.MongoClient")
     def test_EventDAO_has_event(self, MockDB):
@@ -246,6 +246,7 @@ class TestApp(unittest.TestCase):
         (number, unit) = Util.calculate_diff_interval(86399, 86400)
         self.assertEqual(0, number)
         self.assertEqual("天", unit)
+
 
 if __name__ == '__main__':
     unittest.main()

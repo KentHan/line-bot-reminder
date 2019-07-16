@@ -3,8 +3,7 @@
 import os
 import sys
 
-from flask import Flask, render_template, request, redirect, url_for
-
+from flask import Flask, render_template, request
 from linebot import (
     LineBotApi, WebhookParser
 )
@@ -12,11 +11,10 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage,
-)
+    MessageEvent, )
 
 from bo import EventBO
-from message import reply_text_message, push_reset_confirm_message, MessageApi
+from message import reply_text_message, MessageApi
 
 app = Flask(__name__)
 

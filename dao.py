@@ -4,7 +4,6 @@ import os
 
 from pymongo import MongoClient
 
-from event import Event
 from util import Util
 
 mongodb_id = os.getenv("MONGODB_ID")

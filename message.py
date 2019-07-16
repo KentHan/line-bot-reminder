@@ -1,16 +1,12 @@
 # -*- coding: utf-8 -*-
 
 import os
-import logging
 
 from linebot import LineBotApi
 from linebot.models import (
-    MessageEvent, TextMessage,
-    TextSendMessage,
+    TextMessage,
     TemplateSendMessage,
-    ButtonsTemplate, ConfirmTemplate, CarouselTemplate,
-    PostbackTemplateAction, MessageTemplateAction, URITemplateAction,
-    CarouselColumn
+    ConfirmTemplate, MessageTemplateAction
 )
 
 channel_access_token = os.getenv('LINE_CHANNEL_ACCESS_TOKEN')
