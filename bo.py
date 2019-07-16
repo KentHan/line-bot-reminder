@@ -2,11 +2,6 @@
 
 from time import time
 
-import sys
-
-reload(sys)
-sys.setdefaultencoding("utf-8")
-
 from dao import EventDAO
 from event import Event
 from message import MessageApi

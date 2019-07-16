@@ -3,9 +3,6 @@
 import os
 import sys
 
-reload(sys)
-sys.setdefaultencoding("utf-8")
-
 from flask import Flask, render_template, request, redirect, url_for
 
 from linebot import (
@@ -169,7 +166,7 @@ def command_parser(input):
         options_string = input[options_start_index:]
         keys = ["name", "interval", "alarm_time"]
         values = options_string.split(" ")
-        return dict(zip(keys, values))
+        return dict(list(zip(keys, values)))
 
 
 if __name__ == '__main__':
