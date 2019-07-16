@@ -237,6 +237,15 @@ class TestApp(unittest.TestCase):
 
         self.assertTrue(dao.remove_event(Event("test target", "test event")))
 
+    def test_diff_interval_86401_sec_diff_is_1_day(self):
+        (number, unit) = Util.calculate_diff_interval(86401, 86400)
+        self.assertEqual(1, number)
+        self.assertEqual("天", unit)
+
+    def test_diff_interval_86399_sec_diff_is_0_day(self):
+        (number, unit) = Util.calculate_diff_interval(86399, 86400)
+        self.assertEqual(0, number)
+        self.assertEqual("天", unit)
 
 if __name__ == '__main__':
     unittest.main()
