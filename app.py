@@ -166,7 +166,7 @@ def command_parser(input):
         options_string = input[options_start_index:]
         keys = ["name", "interval", "alarm_time"]
         values = options_string.split(" ")
-        return dict(zip(keys, values))
+        return dict(list(zip(keys, values)))
 
 
 if __name__ == '__main__':
