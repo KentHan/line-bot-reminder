@@ -2,6 +2,7 @@
 
 from datetime import datetime
 from time import time, mktime
+from past.utils import old_div
 
 
 class Util(object):
@@ -26,7 +27,7 @@ class Util(object):
             counter = "天"
             scale = one_day
 
-        times = time_diff_in_second / scale
+        times = old_div(time_diff_in_second, scale)
         times = 0 if times < 0 else times
         return times, counter
 
