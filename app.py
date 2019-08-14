@@ -39,7 +39,6 @@ MESSAGE_HELP = """
 MESSAGE_ERROR = "我看不懂，試試看輸入 /help"
 MESSAGE_OK = "OK!"
 
-image_count = 0
 
 ###
 # Routing for your application.
@@ -104,7 +103,6 @@ def callback():
     # parse webhook body
     try:
         events = parser.parse(body, signature)
-        print(f'count: {len(events)}')
         for event in events:
             if isinstance(event, MessageEvent):
                 handle_message(event)
@@ -121,19 +119,16 @@ def list_event():
 
 
 def handle_message(event):
-    global image_count
     user_id = event.source.sender_id
     source_type = event.source.type
     reply_token = event.reply_token
 
     if isinstance(event.message, TextMessage):
         text = event.message.text
-    elif isinstance(event.message, ImageMessage):
-        image_count = image_count + 1
+    else:
         import datetime
         print(datetime.datetime.now())
-        # print(image_count)
-        # print(event.message)
+        print(event.message)
         return
 
     message_api = MessageApi(user_id, reply_token)
