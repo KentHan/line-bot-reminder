@@ -16,11 +16,10 @@ class Event:
         self.alarm_time = alarm_time
 
     def __str__(self):
-        return "target: {}\nname: {}\ncreated_time: {}\ninterval: {}\nlast_notified_time: {}\n alarm_time: {}\ncurrent_time: {}".format(
-            self.target,
-            self.name,
-            self.created_time,
-            self.interval,
-            self.last_notified_time,
-            self.alarm_time,
-            int(time()))
+        return f"target: {self.target}\n" \
+            f"name: {self.name}\n" \
+            f"created_time: {self.created_time}\n" \
+            f"interval: {self.interval}\n" \
+            f"last_notified_time: {self.last_notified_time}\n" \
+            f"alarm_time: {self.alarm_time}\n" \
+            f"current_time: {int(time())}"

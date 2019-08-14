@@ -38,11 +38,11 @@ def push_reset_confirm_message(target_id, event_name, event_desc):
     message = TemplateSendMessage(
         alt_text="Confirm Reset",
         template=ConfirmTemplate(
-            text="{}你想要重置這個提醒嗎？".format(event_desc),
+            text=f"{event_desc}你想要重置這個提醒嗎？",
             actions=[
                 MessageTemplateAction(
                     label="Yes",
-                    text="/reset {}".format(event_name)
+                    text=f"/reset {event_name}"
                 ),
                 MessageTemplateAction(
                     label="No",
