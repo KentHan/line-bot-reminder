@@ -11,7 +11,7 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import (
-    MessageEvent, )
+    MessageEvent, TextMessage)
 
 from bo import EventBO
 from message import reply_text_message, MessageApi
@@ -122,7 +122,12 @@ def handle_message(event):
     user_id = event.source.sender_id
     source_type = event.source.type
     reply_token = event.reply_token
-    text = event.message.text
+
+    if isinstance(event.message, TextMessage):
+        text = event.message.text
+    else:
+        print(event.message)
+        return
 
     message_api = MessageApi(user_id, reply_token)
     bo = EventBO()
