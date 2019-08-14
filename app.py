@@ -11,7 +11,7 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import (
-    MessageEvent, TextMessage)
+    MessageEvent, TextMessage, ImageMessage)
 
 from bo import EventBO
 from message import reply_text_message, MessageApi
@@ -39,6 +39,7 @@ MESSAGE_HELP = """
 MESSAGE_ERROR = "我看不懂，試試看輸入 /help"
 MESSAGE_OK = "OK!"
 
+image_count = 0
 
 ###
 # Routing for your application.
@@ -119,13 +120,16 @@ def list_event():
 
 
 def handle_message(event):
+    global image_count
     user_id = event.source.sender_id
     source_type = event.source.type
     reply_token = event.reply_token
 
     if isinstance(event.message, TextMessage):
         text = event.message.text
-    else:
+    elif isinstance(event.message, ImageMessage):
+        image_count = image_count + 1
+        print(image_count)
         print(event.message)
         return
 
