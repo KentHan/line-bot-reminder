@@ -104,6 +104,7 @@ def callback():
     # parse webhook body
     try:
         events = parser.parse(body, signature)
+        print(f'count: {len(events)}')
         for event in events:
             if isinstance(event, MessageEvent):
                 handle_message(event)
@@ -129,8 +130,10 @@ def handle_message(event):
         text = event.message.text
     elif isinstance(event.message, ImageMessage):
         image_count = image_count + 1
-        print(image_count)
-        print(event.message)
+        import datetime
+        print(datetime.datetime.now())
+        # print(image_count)
+        # print(event.message)
         return
 
     message_api = MessageApi(user_id, reply_token)
