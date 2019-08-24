@@ -144,9 +144,7 @@ def handle_message(event):
     elif text.startswith("/list"):
         bo.handle_list_command(user_id, command_parser(text))
     elif text.startswith("/help"):
-        send_text_message(reply_token, MESSAGE_HELP)
-    elif text.startswith("/test"):
-        send_reset_confirm_message(reply_token, "test_event_desc")
+        message_api.reply_text_message(MESSAGE_HELP)
     elif text.startswith("/do_nothing"):
         pass
     else:
