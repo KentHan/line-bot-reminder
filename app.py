@@ -14,7 +14,7 @@ from linebot.models import (
     MessageEvent, TextMessage, ImageMessage)
 
 from bo import EventBO
-from message import reply_text_message, MessageApi
+from message import reply_text_message, MessageApi, get_profile
 
 app = Flask(__name__)
 
@@ -145,6 +145,9 @@ def handle_message(event):
         bo.handle_list_command(user_id, command_parser(text))
     elif text.startswith("/help"):
         message_api.reply_text_message(MESSAGE_HELP)
+    elif text.startswith("/profile"):
+        profile = get_profile(user_id)
+        print(profile)
     elif text.startswith("/do_nothing"):
         pass
     else:

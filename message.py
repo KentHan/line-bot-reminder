@@ -53,3 +53,7 @@ def push_reset_confirm_message(target_id, event_name, event_desc):
     )
     line_bot_api = LineBotApi(channel_access_token)
     line_bot_api.push_message(target_id, message)
+
+def get_profile(user_id):
+    line_bot_api = LineBotApi(channel_access_token)
+    return line_bot_api.get_profile(user_id)
