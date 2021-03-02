@@ -3,7 +3,7 @@
 import os
 import sys
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, send_file
 from linebot import (
     LineBotApi, WebhookParser
 )
@@ -47,14 +47,7 @@ MESSAGE_OK = "OK!"
 @app.route('/')
 def home():
     """Render website's home page."""
-    return render_template('home.html')
-
-
-@app.route('/about/')
-def about():
-    """Render the website's about page."""
-    return render_template('about.html')
-
+    return send_file('static/index.html')
 
 ###
 # The functions below should be applicable to all Flask apps.
